@@ -54,19 +54,22 @@ export interface IdeaNFTInterface extends utils.Interface {
     "CANNOT_TRANSFER_TO_ZERO_ADDRESS()": FunctionFragment;
     "NOT_CURRENT_OWNER()": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
+    "approveIdea(uint256)": FunctionFragment;
+    "approveIdeas(uint256[])": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "buy(uint256)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
+    "ideaSBT()": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "list(uint256,uint256,uint256)": FunctionFragment;
     "name()": FunctionFragment;
     "orderOfTokenId(uint256)": FunctionFragment;
+    "ordersOfTokenIds(uint256)": FunctionFragment;
     "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256,bytes)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
-    "setBaseURI(string)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
     "tokenURI(uint256)": FunctionFragment;
@@ -79,19 +82,22 @@ export interface IdeaNFTInterface extends utils.Interface {
       | "CANNOT_TRANSFER_TO_ZERO_ADDRESS"
       | "NOT_CURRENT_OWNER"
       | "approve"
+      | "approveIdea"
+      | "approveIdeas"
       | "balanceOf"
       | "buy"
       | "getApproved"
+      | "ideaSBT"
       | "isApprovedForAll"
       | "list"
       | "name"
       | "orderOfTokenId"
+      | "ordersOfTokenIds"
       | "owner"
       | "ownerOf"
       | "safeTransferFrom(address,address,uint256)"
       | "safeTransferFrom(address,address,uint256,bytes)"
       | "setApprovalForAll"
-      | "setBaseURI"
       | "supportsInterface"
       | "symbol"
       | "tokenURI"
@@ -112,6 +118,14 @@ export interface IdeaNFTInterface extends utils.Interface {
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
+    functionFragment: "approveIdea",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "approveIdeas",
+    values: [PromiseOrValue<BigNumberish>[]]
+  ): string;
+  encodeFunctionData(
     functionFragment: "balanceOf",
     values: [PromiseOrValue<string>]
   ): string;
@@ -123,6 +137,7 @@ export interface IdeaNFTInterface extends utils.Interface {
     functionFragment: "getApproved",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
+  encodeFunctionData(functionFragment: "ideaSBT", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
@@ -138,6 +153,10 @@ export interface IdeaNFTInterface extends utils.Interface {
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "orderOfTokenId",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "ordersOfTokenIds",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
@@ -165,10 +184,6 @@ export interface IdeaNFTInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "setApprovalForAll",
     values: [PromiseOrValue<string>, PromiseOrValue<boolean>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setBaseURI",
-    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "supportsInterface",
@@ -201,12 +216,21 @@ export interface IdeaNFTInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "approveIdea",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "approveIdeas",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "buy", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "ideaSBT", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isApprovedForAll",
     data: BytesLike
@@ -215,6 +239,10 @@ export interface IdeaNFTInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "orderOfTokenId",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "ordersOfTokenIds",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
@@ -231,7 +259,6 @@ export interface IdeaNFTInterface extends utils.Interface {
     functionFragment: "setApprovalForAll",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "setBaseURI", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "supportsInterface",
     data: BytesLike
@@ -250,12 +277,16 @@ export interface IdeaNFTInterface extends utils.Interface {
   events: {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
+    "Bought(uint256,address,address,uint256)": EventFragment;
+    "Listed(uint256,address,uint256,uint256,uint256)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Bought"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Listed"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
@@ -283,6 +314,33 @@ export type ApprovalForAllEvent = TypedEvent<
 >;
 
 export type ApprovalForAllEventFilter = TypedEventFilter<ApprovalForAllEvent>;
+
+export interface BoughtEventObject {
+  tokenId: BigNumber;
+  buyer: string;
+  seller: string;
+  price: BigNumber;
+}
+export type BoughtEvent = TypedEvent<
+  [BigNumber, string, string, BigNumber],
+  BoughtEventObject
+>;
+
+export type BoughtEventFilter = TypedEventFilter<BoughtEvent>;
+
+export interface ListedEventObject {
+  tokenId: BigNumber;
+  lister: string;
+  price: BigNumber;
+  list_time: BigNumber;
+  duration: BigNumber;
+}
+export type ListedEvent = TypedEvent<
+  [BigNumber, string, BigNumber, BigNumber, BigNumber],
+  ListedEventObject
+>;
+
+export type ListedEventFilter = TypedEventFilter<ListedEvent>;
 
 export interface OwnershipTransferredEventObject {
   previousOwner: string;
@@ -347,6 +405,16 @@ export interface IdeaNFT extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    approveIdea(
+      ideaId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    approveIdeas(
+      ideaIds: PromiseOrValue<BigNumberish>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     balanceOf(
       owner: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -361,6 +429,8 @@ export interface IdeaNFT extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[string]>;
+
+    ideaSBT(overrides?: CallOverrides): Promise<[string]>;
 
     isApprovedForAll(
       owner: PromiseOrValue<string>,
@@ -381,6 +451,11 @@ export interface IdeaNFT extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[ERC721Tradable.TraderOrderStructOutput]>;
+
+    ordersOfTokenIds(
+      tokenIds: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[ERC721Tradable.TraderOrderStructOutput[]]>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
 
@@ -407,11 +482,6 @@ export interface IdeaNFT extends BaseContract {
     setApprovalForAll(
       operator: PromiseOrValue<string>,
       approved: PromiseOrValue<boolean>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setBaseURI(
-      __baseURI: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -450,6 +520,16 @@ export interface IdeaNFT extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  approveIdea(
+    ideaId: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  approveIdeas(
+    ideaIds: PromiseOrValue<BigNumberish>[],
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   balanceOf(
     owner: PromiseOrValue<string>,
     overrides?: CallOverrides
@@ -464,6 +544,8 @@ export interface IdeaNFT extends BaseContract {
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<string>;
+
+  ideaSBT(overrides?: CallOverrides): Promise<string>;
 
   isApprovedForAll(
     owner: PromiseOrValue<string>,
@@ -484,6 +566,11 @@ export interface IdeaNFT extends BaseContract {
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<ERC721Tradable.TraderOrderStructOutput>;
+
+  ordersOfTokenIds(
+    tokenIds: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<ERC721Tradable.TraderOrderStructOutput[]>;
 
   owner(overrides?: CallOverrides): Promise<string>;
 
@@ -510,11 +597,6 @@ export interface IdeaNFT extends BaseContract {
   setApprovalForAll(
     operator: PromiseOrValue<string>,
     approved: PromiseOrValue<boolean>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setBaseURI(
-    __baseURI: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -553,6 +635,16 @@ export interface IdeaNFT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    approveIdea(
+      ideaId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    approveIdeas(
+      ideaIds: PromiseOrValue<BigNumberish>[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     balanceOf(
       owner: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -567,6 +659,8 @@ export interface IdeaNFT extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    ideaSBT(overrides?: CallOverrides): Promise<string>;
 
     isApprovedForAll(
       owner: PromiseOrValue<string>,
@@ -587,6 +681,11 @@ export interface IdeaNFT extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<ERC721Tradable.TraderOrderStructOutput>;
+
+    ordersOfTokenIds(
+      tokenIds: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<ERC721Tradable.TraderOrderStructOutput[]>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
@@ -613,11 +712,6 @@ export interface IdeaNFT extends BaseContract {
     setApprovalForAll(
       operator: PromiseOrValue<string>,
       approved: PromiseOrValue<boolean>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setBaseURI(
-      __baseURI: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -669,6 +763,34 @@ export interface IdeaNFT extends BaseContract {
       approved?: null
     ): ApprovalForAllEventFilter;
 
+    "Bought(uint256,address,address,uint256)"(
+      tokenId?: PromiseOrValue<BigNumberish> | null,
+      buyer?: PromiseOrValue<string> | null,
+      seller?: PromiseOrValue<string> | null,
+      price?: null
+    ): BoughtEventFilter;
+    Bought(
+      tokenId?: PromiseOrValue<BigNumberish> | null,
+      buyer?: PromiseOrValue<string> | null,
+      seller?: PromiseOrValue<string> | null,
+      price?: null
+    ): BoughtEventFilter;
+
+    "Listed(uint256,address,uint256,uint256,uint256)"(
+      tokenId?: PromiseOrValue<BigNumberish> | null,
+      lister?: PromiseOrValue<string> | null,
+      price?: null,
+      list_time?: null,
+      duration?: null
+    ): ListedEventFilter;
+    Listed(
+      tokenId?: PromiseOrValue<BigNumberish> | null,
+      lister?: PromiseOrValue<string> | null,
+      price?: null,
+      list_time?: null,
+      duration?: null
+    ): ListedEventFilter;
+
     "OwnershipTransferred(address,address)"(
       previousOwner?: PromiseOrValue<string> | null,
       newOwner?: PromiseOrValue<string> | null
@@ -703,6 +825,16 @@ export interface IdeaNFT extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    approveIdea(
+      ideaId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    approveIdeas(
+      ideaIds: PromiseOrValue<BigNumberish>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     balanceOf(
       owner: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -717,6 +849,8 @@ export interface IdeaNFT extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    ideaSBT(overrides?: CallOverrides): Promise<BigNumber>;
 
     isApprovedForAll(
       owner: PromiseOrValue<string>,
@@ -735,6 +869,11 @@ export interface IdeaNFT extends BaseContract {
 
     orderOfTokenId(
       tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    ordersOfTokenIds(
+      tokenIds: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -763,11 +902,6 @@ export interface IdeaNFT extends BaseContract {
     setApprovalForAll(
       operator: PromiseOrValue<string>,
       approved: PromiseOrValue<boolean>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setBaseURI(
-      __baseURI: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -809,6 +943,16 @@ export interface IdeaNFT extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    approveIdea(
+      ideaId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    approveIdeas(
+      ideaIds: PromiseOrValue<BigNumberish>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     balanceOf(
       owner: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -823,6 +967,8 @@ export interface IdeaNFT extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    ideaSBT(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     isApprovedForAll(
       owner: PromiseOrValue<string>,
@@ -841,6 +987,11 @@ export interface IdeaNFT extends BaseContract {
 
     orderOfTokenId(
       tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    ordersOfTokenIds(
+      tokenIds: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -869,11 +1020,6 @@ export interface IdeaNFT extends BaseContract {
     setApprovalForAll(
       operator: PromiseOrValue<string>,
       approved: PromiseOrValue<boolean>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setBaseURI(
-      __baseURI: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

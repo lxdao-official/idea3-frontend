@@ -8,76 +8,6 @@ import type { SBT, SBTInterface } from "../../../contracts/sbt/SBT";
 
 const _abi = [
   {
-    inputs: [],
-    name: "ApprovalCallerNotOwnerNorApproved",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "ApprovalQueryForNonexistentToken",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "BalanceQueryForZeroAddress",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "InvalidQueryRange",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "MintERC2309QuantityExceedsLimit",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "MintToZeroAddress",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "MintZeroQuantity",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "OwnerQueryForNonexistentToken",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "OwnershipNotInitializedForExtraData",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "TransferCallerNotOwnerNorApproved",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "TransferFromIncorrectOwner",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "TransferToNonERC721ReceiverImplementer",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "TransferToZeroAddress",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "URIQueryForNonexistentToken",
-    type: "error",
-  },
-  {
     anonymous: false,
     inputs: [
       {
@@ -132,56 +62,6 @@ const _abi = [
     inputs: [
       {
         indexed: true,
-        internalType: "uint256",
-        name: "fromTokenId",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "toTokenId",
-        type: "uint256",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "from",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "to",
-        type: "address",
-      },
-    ],
-    name: "ConsecutiveTransfer",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "previousOwner",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "newOwner",
-        type: "address",
-      },
-    ],
-    name: "OwnershipTransferred",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
         internalType: "address",
         name: "from",
         type: "address",
@@ -203,32 +83,6 @@ const _abi = [
     type: "event",
   },
   {
-    inputs: [],
-    name: "CANNOT_TRANSFER_TO_ZERO_ADDRESS",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "NOT_CURRENT_OWNER",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "address",
@@ -243,7 +97,7 @@ const _abi = [
     ],
     name: "approve",
     outputs: [],
-    stateMutability: "payable",
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -260,88 +114,6 @@ const _abi = [
         internalType: "uint256",
         name: "",
         type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "explicitOwnershipOf",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "address",
-            name: "addr",
-            type: "address",
-          },
-          {
-            internalType: "uint64",
-            name: "startTimestamp",
-            type: "uint64",
-          },
-          {
-            internalType: "bool",
-            name: "burned",
-            type: "bool",
-          },
-          {
-            internalType: "uint24",
-            name: "extraData",
-            type: "uint24",
-          },
-        ],
-        internalType: "struct IERC721A.TokenOwnership",
-        name: "",
-        type: "tuple",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256[]",
-        name: "tokenIds",
-        type: "uint256[]",
-      },
-    ],
-    name: "explicitOwnershipsOf",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "address",
-            name: "addr",
-            type: "address",
-          },
-          {
-            internalType: "uint64",
-            name: "startTimestamp",
-            type: "uint64",
-          },
-          {
-            internalType: "bool",
-            name: "burned",
-            type: "bool",
-          },
-          {
-            internalType: "uint24",
-            name: "extraData",
-            type: "uint24",
-          },
-        ],
-        internalType: "struct IERC721A.TokenOwnership[]",
-        name: "",
-        type: "tuple[]",
       },
     ],
     stateMutability: "view",
@@ -404,19 +176,6 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "owner",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "uint256",
@@ -455,7 +214,7 @@ const _abi = [
     ],
     name: "safeTransferFrom",
     outputs: [],
-    stateMutability: "payable",
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -477,13 +236,13 @@ const _abi = [
       },
       {
         internalType: "bytes",
-        name: "_data",
+        name: "data",
         type: "bytes",
       },
     ],
     name: "safeTransferFrom",
     outputs: [],
-    stateMutability: "payable",
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -559,67 +318,6 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "owner",
-        type: "address",
-      },
-    ],
-    name: "tokensOfOwner",
-    outputs: [
-      {
-        internalType: "uint256[]",
-        name: "",
-        type: "uint256[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "owner",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "start",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "stop",
-        type: "uint256",
-      },
-    ],
-    name: "tokensOfOwnerIn",
-    outputs: [
-      {
-        internalType: "uint256[]",
-        name: "",
-        type: "uint256[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "totalSupply",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
         name: "from",
         type: "address",
       },
@@ -635,19 +333,6 @@ const _abi = [
       },
     ],
     name: "transferFrom",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_newOwner",
-        type: "address",
-      },
-    ],
-    name: "transferOwnership",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

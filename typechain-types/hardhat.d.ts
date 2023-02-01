@@ -49,21 +49,17 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC165__factory>;
     getContractFactory(
-      name: "Idea",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Idea__factory>;
-    getContractFactory(
       name: "IdeaNFT",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IdeaNFT__factory>;
     getContractFactory(
-      name: "IdeaMetadata",
+      name: "IdeaSBT",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IdeaMetadata__factory>;
+    ): Promise<Contracts.IdeaSBT__factory>;
     getContractFactory(
-      name: "POAP",
+      name: "IIdeaSBT",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.POAP__factory>;
+    ): Promise<Contracts.IIdeaSBT__factory>;
     getContractFactory(
       name: "MockERC20",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -147,25 +143,20 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IERC165>;
     getContractAt(
-      name: "Idea",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.Idea>;
-    getContractAt(
       name: "IdeaNFT",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IdeaNFT>;
     getContractAt(
-      name: "IdeaMetadata",
+      name: "IdeaSBT",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.IdeaMetadata>;
+    ): Promise<Contracts.IdeaSBT>;
     getContractAt(
-      name: "POAP",
+      name: "IIdeaSBT",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.POAP>;
+    ): Promise<Contracts.IIdeaSBT>;
     getContractAt(
       name: "MockERC20",
       address: string,

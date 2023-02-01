@@ -9,7 +9,6 @@ import type {
   CallOverrides,
   ContractTransaction,
   Overrides,
-  PayableOverrides,
   PopulatedTransaction,
   Signer,
   utils,
@@ -28,39 +27,13 @@ import type {
   PromiseOrValue,
 } from "../../common";
 
-export declare namespace IERC721A {
-  export type TokenOwnershipStruct = {
-    addr: PromiseOrValue<string>;
-    startTimestamp: PromiseOrValue<BigNumberish>;
-    burned: PromiseOrValue<boolean>;
-    extraData: PromiseOrValue<BigNumberish>;
-  };
-
-  export type TokenOwnershipStructOutput = [
-    string,
-    BigNumber,
-    boolean,
-    number
-  ] & {
-    addr: string;
-    startTimestamp: BigNumber;
-    burned: boolean;
-    extraData: number;
-  };
-}
-
 export interface SBTInterface extends utils.Interface {
   functions: {
-    "CANNOT_TRANSFER_TO_ZERO_ADDRESS()": FunctionFragment;
-    "NOT_CURRENT_OWNER()": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
-    "explicitOwnershipOf(uint256)": FunctionFragment;
-    "explicitOwnershipsOf(uint256[])": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "name()": FunctionFragment;
-    "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256,bytes)": FunctionFragment;
@@ -68,25 +41,16 @@ export interface SBTInterface extends utils.Interface {
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
     "tokenURI(uint256)": FunctionFragment;
-    "tokensOfOwner(address)": FunctionFragment;
-    "tokensOfOwnerIn(address,uint256,uint256)": FunctionFragment;
-    "totalSupply()": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
-    "transferOwnership(address)": FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
-      | "CANNOT_TRANSFER_TO_ZERO_ADDRESS"
-      | "NOT_CURRENT_OWNER"
       | "approve"
       | "balanceOf"
-      | "explicitOwnershipOf"
-      | "explicitOwnershipsOf"
       | "getApproved"
       | "isApprovedForAll"
       | "name"
-      | "owner"
       | "ownerOf"
       | "safeTransferFrom(address,address,uint256)"
       | "safeTransferFrom(address,address,uint256,bytes)"
@@ -94,21 +58,9 @@ export interface SBTInterface extends utils.Interface {
       | "supportsInterface"
       | "symbol"
       | "tokenURI"
-      | "tokensOfOwner"
-      | "tokensOfOwnerIn"
-      | "totalSupply"
       | "transferFrom"
-      | "transferOwnership"
   ): FunctionFragment;
 
-  encodeFunctionData(
-    functionFragment: "CANNOT_TRANSFER_TO_ZERO_ADDRESS",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "NOT_CURRENT_OWNER",
-    values?: undefined
-  ): string;
   encodeFunctionData(
     functionFragment: "approve",
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
@@ -116,14 +68,6 @@ export interface SBTInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "balanceOf",
     values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "explicitOwnershipOf",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "explicitOwnershipsOf",
-    values: [PromiseOrValue<BigNumberish>[]]
   ): string;
   encodeFunctionData(
     functionFragment: "getApproved",
@@ -134,7 +78,6 @@ export interface SBTInterface extends utils.Interface {
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
-  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "ownerOf",
     values: [PromiseOrValue<BigNumberish>]
@@ -170,22 +113,6 @@ export interface SBTInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
-    functionFragment: "tokensOfOwner",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "tokensOfOwnerIn",
-    values: [
-      PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>
-    ]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "totalSupply",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
     functionFragment: "transferFrom",
     values: [
       PromiseOrValue<string>,
@@ -193,29 +120,9 @@ export interface SBTInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>
     ]
   ): string;
-  encodeFunctionData(
-    functionFragment: "transferOwnership",
-    values: [PromiseOrValue<string>]
-  ): string;
 
-  decodeFunctionResult(
-    functionFragment: "CANNOT_TRANSFER_TO_ZERO_ADDRESS",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "NOT_CURRENT_OWNER",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "explicitOwnershipOf",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "explicitOwnershipsOf",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
     data: BytesLike
@@ -225,7 +132,6 @@ export interface SBTInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "safeTransferFrom(address,address,uint256)",
@@ -246,38 +152,18 @@ export interface SBTInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "tokenURI", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "tokensOfOwner",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "tokensOfOwnerIn",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "totalSupply",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "transferFrom",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
 
   events: {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
-    "ConsecutiveTransfer(uint256,uint256,address,address)": EventFragment;
-    "OwnershipTransferred(address,address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "ConsecutiveTransfer"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
 
@@ -304,32 +190,6 @@ export type ApprovalForAllEvent = TypedEvent<
 >;
 
 export type ApprovalForAllEventFilter = TypedEventFilter<ApprovalForAllEvent>;
-
-export interface ConsecutiveTransferEventObject {
-  fromTokenId: BigNumber;
-  toTokenId: BigNumber;
-  from: string;
-  to: string;
-}
-export type ConsecutiveTransferEvent = TypedEvent<
-  [BigNumber, BigNumber, string, string],
-  ConsecutiveTransferEventObject
->;
-
-export type ConsecutiveTransferEventFilter =
-  TypedEventFilter<ConsecutiveTransferEvent>;
-
-export interface OwnershipTransferredEventObject {
-  previousOwner: string;
-  newOwner: string;
-}
-export type OwnershipTransferredEvent = TypedEvent<
-  [string, string],
-  OwnershipTransferredEventObject
->;
-
-export type OwnershipTransferredEventFilter =
-  TypedEventFilter<OwnershipTransferredEvent>;
 
 export interface TransferEventObject {
   from: string;
@@ -370,32 +230,16 @@ export interface SBT extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    CANNOT_TRANSFER_TO_ZERO_ADDRESS(
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    NOT_CURRENT_OWNER(overrides?: CallOverrides): Promise<[string]>;
-
     approve(
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     balanceOf(
       owner: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
-
-    explicitOwnershipOf(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[IERC721A.TokenOwnershipStructOutput]>;
-
-    explicitOwnershipsOf(
-      tokenIds: PromiseOrValue<BigNumberish>[],
-      overrides?: CallOverrides
-    ): Promise<[IERC721A.TokenOwnershipStructOutput[]]>;
 
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
@@ -410,8 +254,6 @@ export interface SBT extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<[string]>;
 
-    owner(overrides?: CallOverrides): Promise<[string]>;
-
     ownerOf(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -421,15 +263,15 @@ export interface SBT extends BaseContract {
       from: PromiseOrValue<string>,
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     "safeTransferFrom(address,address,uint256,bytes)"(
       from: PromiseOrValue<string>,
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
-      _data: PromiseOrValue<BytesLike>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+      data: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     setApprovalForAll(
@@ -450,57 +292,24 @@ export interface SBT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
-    tokensOfOwner(
-      owner: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber[]]>;
-
-    tokensOfOwnerIn(
-      owner: PromiseOrValue<string>,
-      start: PromiseOrValue<BigNumberish>,
-      stop: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber[]]>;
-
-    totalSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
-
     transferFrom(
       from: PromiseOrValue<string>,
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    transferOwnership(
-      _newOwner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
   };
 
-  CANNOT_TRANSFER_TO_ZERO_ADDRESS(overrides?: CallOverrides): Promise<string>;
-
-  NOT_CURRENT_OWNER(overrides?: CallOverrides): Promise<string>;
-
   approve(
     to: PromiseOrValue<string>,
     tokenId: PromiseOrValue<BigNumberish>,
-    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   balanceOf(
     owner: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
-
-  explicitOwnershipOf(
-    tokenId: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<IERC721A.TokenOwnershipStructOutput>;
-
-  explicitOwnershipsOf(
-    tokenIds: PromiseOrValue<BigNumberish>[],
-    overrides?: CallOverrides
-  ): Promise<IERC721A.TokenOwnershipStructOutput[]>;
 
   getApproved(
     tokenId: PromiseOrValue<BigNumberish>,
@@ -515,8 +324,6 @@ export interface SBT extends BaseContract {
 
   name(overrides?: CallOverrides): Promise<string>;
 
-  owner(overrides?: CallOverrides): Promise<string>;
-
   ownerOf(
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
@@ -526,15 +333,15 @@ export interface SBT extends BaseContract {
     from: PromiseOrValue<string>,
     to: PromiseOrValue<string>,
     tokenId: PromiseOrValue<BigNumberish>,
-    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   "safeTransferFrom(address,address,uint256,bytes)"(
     from: PromiseOrValue<string>,
     to: PromiseOrValue<string>,
     tokenId: PromiseOrValue<BigNumberish>,
-    _data: PromiseOrValue<BytesLike>,
-    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    data: PromiseOrValue<BytesLike>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   setApprovalForAll(
@@ -555,37 +362,14 @@ export interface SBT extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
-  tokensOfOwner(
-    owner: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<BigNumber[]>;
-
-  tokensOfOwnerIn(
-    owner: PromiseOrValue<string>,
-    start: PromiseOrValue<BigNumberish>,
-    stop: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<BigNumber[]>;
-
-  totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
-
   transferFrom(
     from: PromiseOrValue<string>,
     to: PromiseOrValue<string>,
     tokenId: PromiseOrValue<BigNumberish>,
-    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  transferOwnership(
-    _newOwner: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    CANNOT_TRANSFER_TO_ZERO_ADDRESS(overrides?: CallOverrides): Promise<string>;
-
-    NOT_CURRENT_OWNER(overrides?: CallOverrides): Promise<string>;
-
     approve(
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
@@ -596,16 +380,6 @@ export interface SBT extends BaseContract {
       owner: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    explicitOwnershipOf(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<IERC721A.TokenOwnershipStructOutput>;
-
-    explicitOwnershipsOf(
-      tokenIds: PromiseOrValue<BigNumberish>[],
-      overrides?: CallOverrides
-    ): Promise<IERC721A.TokenOwnershipStructOutput[]>;
 
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
@@ -619,8 +393,6 @@ export interface SBT extends BaseContract {
     ): Promise<boolean>;
 
     name(overrides?: CallOverrides): Promise<string>;
-
-    owner(overrides?: CallOverrides): Promise<string>;
 
     ownerOf(
       tokenId: PromiseOrValue<BigNumberish>,
@@ -638,7 +410,7 @@ export interface SBT extends BaseContract {
       from: PromiseOrValue<string>,
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
-      _data: PromiseOrValue<BytesLike>,
+      data: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -660,29 +432,10 @@ export interface SBT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<string>;
 
-    tokensOfOwner(
-      owner: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber[]>;
-
-    tokensOfOwnerIn(
-      owner: PromiseOrValue<string>,
-      start: PromiseOrValue<BigNumberish>,
-      stop: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber[]>;
-
-    totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
-
     transferFrom(
       from: PromiseOrValue<string>,
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    transferOwnership(
-      _newOwner: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
   };
@@ -710,28 +463,6 @@ export interface SBT extends BaseContract {
       approved?: null
     ): ApprovalForAllEventFilter;
 
-    "ConsecutiveTransfer(uint256,uint256,address,address)"(
-      fromTokenId?: PromiseOrValue<BigNumberish> | null,
-      toTokenId?: null,
-      from?: PromiseOrValue<string> | null,
-      to?: PromiseOrValue<string> | null
-    ): ConsecutiveTransferEventFilter;
-    ConsecutiveTransfer(
-      fromTokenId?: PromiseOrValue<BigNumberish> | null,
-      toTokenId?: null,
-      from?: PromiseOrValue<string> | null,
-      to?: PromiseOrValue<string> | null
-    ): ConsecutiveTransferEventFilter;
-
-    "OwnershipTransferred(address,address)"(
-      previousOwner?: PromiseOrValue<string> | null,
-      newOwner?: PromiseOrValue<string> | null
-    ): OwnershipTransferredEventFilter;
-    OwnershipTransferred(
-      previousOwner?: PromiseOrValue<string> | null,
-      newOwner?: PromiseOrValue<string> | null
-    ): OwnershipTransferredEventFilter;
-
     "Transfer(address,address,uint256)"(
       from?: PromiseOrValue<string> | null,
       to?: PromiseOrValue<string> | null,
@@ -745,30 +476,14 @@ export interface SBT extends BaseContract {
   };
 
   estimateGas: {
-    CANNOT_TRANSFER_TO_ZERO_ADDRESS(
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    NOT_CURRENT_OWNER(overrides?: CallOverrides): Promise<BigNumber>;
-
     approve(
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     balanceOf(
       owner: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    explicitOwnershipOf(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    explicitOwnershipsOf(
-      tokenIds: PromiseOrValue<BigNumberish>[],
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -785,8 +500,6 @@ export interface SBT extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<BigNumber>;
 
-    owner(overrides?: CallOverrides): Promise<BigNumber>;
-
     ownerOf(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -796,15 +509,15 @@ export interface SBT extends BaseContract {
       from: PromiseOrValue<string>,
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     "safeTransferFrom(address,address,uint256,bytes)"(
       from: PromiseOrValue<string>,
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
-      _data: PromiseOrValue<BytesLike>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+      data: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     setApprovalForAll(
@@ -825,58 +538,23 @@ export interface SBT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    tokensOfOwner(
-      owner: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    tokensOfOwnerIn(
-      owner: PromiseOrValue<string>,
-      start: PromiseOrValue<BigNumberish>,
-      stop: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
-
     transferFrom(
       from: PromiseOrValue<string>,
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    transferOwnership(
-      _newOwner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    CANNOT_TRANSFER_TO_ZERO_ADDRESS(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    NOT_CURRENT_OWNER(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     approve(
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     balanceOf(
       owner: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    explicitOwnershipOf(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    explicitOwnershipsOf(
-      tokenIds: PromiseOrValue<BigNumberish>[],
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -893,8 +571,6 @@ export interface SBT extends BaseContract {
 
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     ownerOf(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -904,15 +580,15 @@ export interface SBT extends BaseContract {
       from: PromiseOrValue<string>,
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     "safeTransferFrom(address,address,uint256,bytes)"(
       from: PromiseOrValue<string>,
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
-      _data: PromiseOrValue<BytesLike>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+      data: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     setApprovalForAll(
@@ -933,29 +609,10 @@ export interface SBT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    tokensOfOwner(
-      owner: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    tokensOfOwnerIn(
-      owner: PromiseOrValue<string>,
-      start: PromiseOrValue<BigNumberish>,
-      stop: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    totalSupply(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     transferFrom(
       from: PromiseOrValue<string>,
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    transferOwnership(
-      _newOwner: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
   };

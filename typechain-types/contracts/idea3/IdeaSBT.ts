@@ -9,7 +9,6 @@ import type {
   CallOverrides,
   ContractTransaction,
   Overrides,
-  PayableOverrides,
   PopulatedTransaction,
   Signer,
   utils,
@@ -28,106 +27,140 @@ import type {
   PromiseOrValue,
 } from "../../common";
 
-export declare namespace ERC721Tradable {
-  export type TraderOrderStruct = {
-    lister: PromiseOrValue<string>;
-    price: PromiseOrValue<BigNumberish>;
-    list_time: PromiseOrValue<BigNumberish>;
-    duration: PromiseOrValue<BigNumberish>;
+export declare namespace IdeaSBT {
+  export type IdeaStructStruct = {
+    id: PromiseOrValue<BigNumberish>;
+    title: PromiseOrValue<string>;
+    content: PromiseOrValue<string>;
+    submitter: PromiseOrValue<string>;
+    submitterName: PromiseOrValue<string>;
+    approved: PromiseOrValue<boolean>;
   };
 
-  export type TraderOrderStructOutput = [
+  export type IdeaStructStructOutput = [
+    BigNumber,
     string,
-    BigNumber,
-    BigNumber,
-    BigNumber
+    string,
+    string,
+    string,
+    boolean
   ] & {
-    lister: string;
-    price: BigNumber;
-    list_time: BigNumber;
-    duration: BigNumber;
+    id: BigNumber;
+    title: string;
+    content: string;
+    submitter: string;
+    submitterName: string;
+    approved: boolean;
   };
 }
 
-export interface ERC721TradableInterface extends utils.Interface {
+export interface IdeaSBTInterface extends utils.Interface {
   functions: {
+    "CANNOT_TRANSFER_TO_ZERO_ADDRESS()": FunctionFragment;
+    "NOT_CURRENT_OWNER()": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
+    "approveIdea(uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
-    "buy(uint256)": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
+    "getIdea(uint256)": FunctionFragment;
+    "getIdeas(uint256[])": FunctionFragment;
+    "getTokenURI(uint256)": FunctionFragment;
+    "ideaCount()": FunctionFragment;
+    "ideas(uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
-    "list(uint256,uint256,uint256)": FunctionFragment;
     "name()": FunctionFragment;
-    "orderOfTokenId(uint256)": FunctionFragment;
-    "ordersOfTokenIds(uint256)": FunctionFragment;
+    "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256,bytes)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
+    "setApprover(address)": FunctionFragment;
+    "submitIdea(string,string,string)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
     "tokenURI(uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
+    "transferOwnership(address)": FunctionFragment;
+    "unapproveIdea(uint256)": FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
+      | "CANNOT_TRANSFER_TO_ZERO_ADDRESS"
+      | "NOT_CURRENT_OWNER"
       | "approve"
+      | "approveIdea"
       | "balanceOf"
-      | "buy"
       | "getApproved"
+      | "getIdea"
+      | "getIdeas"
+      | "getTokenURI"
+      | "ideaCount"
+      | "ideas"
       | "isApprovedForAll"
-      | "list"
       | "name"
-      | "orderOfTokenId"
-      | "ordersOfTokenIds"
+      | "owner"
       | "ownerOf"
       | "safeTransferFrom(address,address,uint256)"
       | "safeTransferFrom(address,address,uint256,bytes)"
       | "setApprovalForAll"
+      | "setApprover"
+      | "submitIdea"
       | "supportsInterface"
       | "symbol"
       | "tokenURI"
       | "transferFrom"
+      | "transferOwnership"
+      | "unapproveIdea"
   ): FunctionFragment;
 
   encodeFunctionData(
+    functionFragment: "CANNOT_TRANSFER_TO_ZERO_ADDRESS",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "NOT_CURRENT_OWNER",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "approve",
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "approveIdea",
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "balanceOf",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "buy",
+    functionFragment: "getApproved",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
-    functionFragment: "getApproved",
+    functionFragment: "getIdea",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getIdeas",
+    values: [PromiseOrValue<BigNumberish>[]]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getTokenURI",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(functionFragment: "ideaCount", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "ideas",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
-  encodeFunctionData(
-    functionFragment: "list",
-    values: [
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>
-    ]
-  ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "orderOfTokenId",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "ordersOfTokenIds",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
+  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "ownerOf",
     values: [PromiseOrValue<BigNumberish>]
@@ -154,6 +187,18 @@ export interface ERC721TradableInterface extends utils.Interface {
     values: [PromiseOrValue<string>, PromiseOrValue<boolean>]
   ): string;
   encodeFunctionData(
+    functionFragment: "setApprover",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "submitIdea",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<string>,
+      PromiseOrValue<string>
+    ]
+  ): string;
+  encodeFunctionData(
     functionFragment: "supportsInterface",
     values: [PromiseOrValue<BytesLike>]
   ): string;
@@ -170,28 +215,47 @@ export interface ERC721TradableInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>
     ]
   ): string;
+  encodeFunctionData(
+    functionFragment: "transferOwnership",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "unapproveIdea",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
 
+  decodeFunctionResult(
+    functionFragment: "CANNOT_TRANSFER_TO_ZERO_ADDRESS",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "NOT_CURRENT_OWNER",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "approveIdea",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "buy", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "getIdea", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getIdeas", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getTokenURI",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "ideaCount", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "ideas", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isApprovedForAll",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "list", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "orderOfTokenId",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "ordersOfTokenIds",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "safeTransferFrom(address,address,uint256)",
@@ -206,6 +270,11 @@ export interface ERC721TradableInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "setApprover",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "submitIdea", data: BytesLike): Result;
+  decodeFunctionResult(
     functionFragment: "supportsInterface",
     data: BytesLike
   ): Result;
@@ -215,19 +284,31 @@ export interface ERC721TradableInterface extends utils.Interface {
     functionFragment: "transferFrom",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "transferOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "unapproveIdea",
+    data: BytesLike
+  ): Result;
 
   events: {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
-    "Bought(uint256,address,address,uint256)": EventFragment;
-    "Listed(uint256,address,uint256,uint256,uint256)": EventFragment;
+    "IdeaApproved(uint256)": EventFragment;
+    "IdeaSubmitted(uint256,string,string,address,string)": EventFragment;
+    "IdeaUnapproved(uint256)": EventFragment;
+    "OwnershipTransferred(address,address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Bought"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Listed"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "IdeaApproved"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "IdeaSubmitted"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "IdeaUnapproved"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
 
@@ -255,32 +336,51 @@ export type ApprovalForAllEvent = TypedEvent<
 
 export type ApprovalForAllEventFilter = TypedEventFilter<ApprovalForAllEvent>;
 
-export interface BoughtEventObject {
-  tokenId: BigNumber;
-  buyer: string;
-  seller: string;
-  price: BigNumber;
+export interface IdeaApprovedEventObject {
+  id: BigNumber;
 }
-export type BoughtEvent = TypedEvent<
-  [BigNumber, string, string, BigNumber],
-  BoughtEventObject
+export type IdeaApprovedEvent = TypedEvent<
+  [BigNumber],
+  IdeaApprovedEventObject
 >;
 
-export type BoughtEventFilter = TypedEventFilter<BoughtEvent>;
+export type IdeaApprovedEventFilter = TypedEventFilter<IdeaApprovedEvent>;
 
-export interface ListedEventObject {
-  tokenId: BigNumber;
-  lister: string;
-  price: BigNumber;
-  list_time: BigNumber;
-  duration: BigNumber;
+export interface IdeaSubmittedEventObject {
+  id: BigNumber;
+  name: string;
+  content: string;
+  submitter: string;
+  submitterName: string;
 }
-export type ListedEvent = TypedEvent<
-  [BigNumber, string, BigNumber, BigNumber, BigNumber],
-  ListedEventObject
+export type IdeaSubmittedEvent = TypedEvent<
+  [BigNumber, string, string, string, string],
+  IdeaSubmittedEventObject
 >;
 
-export type ListedEventFilter = TypedEventFilter<ListedEvent>;
+export type IdeaSubmittedEventFilter = TypedEventFilter<IdeaSubmittedEvent>;
+
+export interface IdeaUnapprovedEventObject {
+  id: BigNumber;
+}
+export type IdeaUnapprovedEvent = TypedEvent<
+  [BigNumber],
+  IdeaUnapprovedEventObject
+>;
+
+export type IdeaUnapprovedEventFilter = TypedEventFilter<IdeaUnapprovedEvent>;
+
+export interface OwnershipTransferredEventObject {
+  previousOwner: string;
+  newOwner: string;
+}
+export type OwnershipTransferredEvent = TypedEvent<
+  [string, string],
+  OwnershipTransferredEventObject
+>;
+
+export type OwnershipTransferredEventFilter =
+  TypedEventFilter<OwnershipTransferredEvent>;
 
 export interface TransferEventObject {
   from: string;
@@ -294,12 +394,12 @@ export type TransferEvent = TypedEvent<
 
 export type TransferEventFilter = TypedEventFilter<TransferEvent>;
 
-export interface ERC721Tradable extends BaseContract {
+export interface IdeaSBT extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: ERC721TradableInterface;
+  interface: IdeaSBTInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -321,9 +421,20 @@ export interface ERC721Tradable extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    CANNOT_TRANSFER_TO_ZERO_ADDRESS(
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    NOT_CURRENT_OWNER(overrides?: CallOverrides): Promise<[string]>;
+
     approve(
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    approveIdea(
+      id: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -332,15 +443,41 @@ export interface ERC721Tradable extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    buy(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[string]>;
+
+    getIdea(
+      id: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[string, string, string, string, boolean]>;
+
+    getIdeas(
+      _ideaIds: PromiseOrValue<BigNumberish>[],
+      overrides?: CallOverrides
+    ): Promise<[IdeaSBT.IdeaStructStructOutput[]]>;
+
+    getTokenURI(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    ideaCount(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    ideas(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, string, string, string, string, boolean] & {
+        id: BigNumber;
+        title: string;
+        content: string;
+        submitter: string;
+        submitterName: string;
+        approved: boolean;
+      }
+    >;
 
     isApprovedForAll(
       owner: PromiseOrValue<string>,
@@ -348,24 +485,9 @@ export interface ERC721Tradable extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
-    list(
-      tokenId: PromiseOrValue<BigNumberish>,
-      price: PromiseOrValue<BigNumberish>,
-      duration: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
     name(overrides?: CallOverrides): Promise<[string]>;
 
-    orderOfTokenId(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[ERC721Tradable.TraderOrderStructOutput]>;
-
-    ordersOfTokenIds(
-      tokenIds: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[ERC721Tradable.TraderOrderStructOutput[]]>;
+    owner(overrides?: CallOverrides): Promise<[string]>;
 
     ownerOf(
       tokenId: PromiseOrValue<BigNumberish>,
@@ -393,6 +515,18 @@ export interface ERC721Tradable extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    setApprover(
+      approver: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    submitIdea(
+      title: PromiseOrValue<string>,
+      content: PromiseOrValue<string>,
+      submitterName: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -411,11 +545,30 @@ export interface ERC721Tradable extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    transferOwnership(
+      _newOwner: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    unapproveIdea(
+      id: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
   };
+
+  CANNOT_TRANSFER_TO_ZERO_ADDRESS(overrides?: CallOverrides): Promise<string>;
+
+  NOT_CURRENT_OWNER(overrides?: CallOverrides): Promise<string>;
 
   approve(
     to: PromiseOrValue<string>,
     tokenId: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  approveIdea(
+    id: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -424,15 +577,41 @@ export interface ERC721Tradable extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  buy(
-    tokenId: PromiseOrValue<BigNumberish>,
-    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
   getApproved(
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<string>;
+
+  getIdea(
+    id: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<[string, string, string, string, boolean]>;
+
+  getIdeas(
+    _ideaIds: PromiseOrValue<BigNumberish>[],
+    overrides?: CallOverrides
+  ): Promise<IdeaSBT.IdeaStructStructOutput[]>;
+
+  getTokenURI(
+    tokenId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
+  ideaCount(overrides?: CallOverrides): Promise<BigNumber>;
+
+  ideas(
+    arg0: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, string, string, string, string, boolean] & {
+      id: BigNumber;
+      title: string;
+      content: string;
+      submitter: string;
+      submitterName: string;
+      approved: boolean;
+    }
+  >;
 
   isApprovedForAll(
     owner: PromiseOrValue<string>,
@@ -440,24 +619,9 @@ export interface ERC721Tradable extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  list(
-    tokenId: PromiseOrValue<BigNumberish>,
-    price: PromiseOrValue<BigNumberish>,
-    duration: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
   name(overrides?: CallOverrides): Promise<string>;
 
-  orderOfTokenId(
-    tokenId: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<ERC721Tradable.TraderOrderStructOutput>;
-
-  ordersOfTokenIds(
-    tokenIds: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<ERC721Tradable.TraderOrderStructOutput[]>;
+  owner(overrides?: CallOverrides): Promise<string>;
 
   ownerOf(
     tokenId: PromiseOrValue<BigNumberish>,
@@ -485,6 +649,18 @@ export interface ERC721Tradable extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  setApprover(
+    approver: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  submitIdea(
+    title: PromiseOrValue<string>,
+    content: PromiseOrValue<string>,
+    submitterName: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   supportsInterface(
     interfaceId: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
@@ -504,27 +680,72 @@ export interface ERC721Tradable extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  transferOwnership(
+    _newOwner: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  unapproveIdea(
+    id: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   callStatic: {
+    CANNOT_TRANSFER_TO_ZERO_ADDRESS(overrides?: CallOverrides): Promise<string>;
+
+    NOT_CURRENT_OWNER(overrides?: CallOverrides): Promise<string>;
+
     approve(
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
+    approveIdea(
+      id: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
     balanceOf(
       owner: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    buy(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    getIdea(
+      id: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[string, string, string, string, boolean]>;
+
+    getIdeas(
+      _ideaIds: PromiseOrValue<BigNumberish>[],
+      overrides?: CallOverrides
+    ): Promise<IdeaSBT.IdeaStructStructOutput[]>;
+
+    getTokenURI(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    ideaCount(overrides?: CallOverrides): Promise<BigNumber>;
+
+    ideas(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, string, string, string, string, boolean] & {
+        id: BigNumber;
+        title: string;
+        content: string;
+        submitter: string;
+        submitterName: string;
+        approved: boolean;
+      }
+    >;
 
     isApprovedForAll(
       owner: PromiseOrValue<string>,
@@ -532,24 +753,9 @@ export interface ERC721Tradable extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    list(
-      tokenId: PromiseOrValue<BigNumberish>,
-      price: PromiseOrValue<BigNumberish>,
-      duration: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     name(overrides?: CallOverrides): Promise<string>;
 
-    orderOfTokenId(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<ERC721Tradable.TraderOrderStructOutput>;
-
-    ordersOfTokenIds(
-      tokenIds: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<ERC721Tradable.TraderOrderStructOutput[]>;
+    owner(overrides?: CallOverrides): Promise<string>;
 
     ownerOf(
       tokenId: PromiseOrValue<BigNumberish>,
@@ -577,6 +783,18 @@ export interface ERC721Tradable extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setApprover(
+      approver: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    submitIdea(
+      title: PromiseOrValue<string>,
+      content: PromiseOrValue<string>,
+      submitterName: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -593,6 +811,16 @@ export interface ERC721Tradable extends BaseContract {
       from: PromiseOrValue<string>,
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    transferOwnership(
+      _newOwner: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    unapproveIdea(
+      id: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
   };
@@ -620,33 +848,35 @@ export interface ERC721Tradable extends BaseContract {
       approved?: null
     ): ApprovalForAllEventFilter;
 
-    "Bought(uint256,address,address,uint256)"(
-      tokenId?: PromiseOrValue<BigNumberish> | null,
-      buyer?: PromiseOrValue<string> | null,
-      seller?: PromiseOrValue<string> | null,
-      price?: null
-    ): BoughtEventFilter;
-    Bought(
-      tokenId?: PromiseOrValue<BigNumberish> | null,
-      buyer?: PromiseOrValue<string> | null,
-      seller?: PromiseOrValue<string> | null,
-      price?: null
-    ): BoughtEventFilter;
+    "IdeaApproved(uint256)"(id?: null): IdeaApprovedEventFilter;
+    IdeaApproved(id?: null): IdeaApprovedEventFilter;
 
-    "Listed(uint256,address,uint256,uint256,uint256)"(
-      tokenId?: PromiseOrValue<BigNumberish> | null,
-      lister?: PromiseOrValue<string> | null,
-      price?: null,
-      list_time?: null,
-      duration?: null
-    ): ListedEventFilter;
-    Listed(
-      tokenId?: PromiseOrValue<BigNumberish> | null,
-      lister?: PromiseOrValue<string> | null,
-      price?: null,
-      list_time?: null,
-      duration?: null
-    ): ListedEventFilter;
+    "IdeaSubmitted(uint256,string,string,address,string)"(
+      id?: null,
+      name?: null,
+      content?: null,
+      submitter?: null,
+      submitterName?: null
+    ): IdeaSubmittedEventFilter;
+    IdeaSubmitted(
+      id?: null,
+      name?: null,
+      content?: null,
+      submitter?: null,
+      submitterName?: null
+    ): IdeaSubmittedEventFilter;
+
+    "IdeaUnapproved(uint256)"(id?: null): IdeaUnapprovedEventFilter;
+    IdeaUnapproved(id?: null): IdeaUnapprovedEventFilter;
+
+    "OwnershipTransferred(address,address)"(
+      previousOwner?: PromiseOrValue<string> | null,
+      newOwner?: PromiseOrValue<string> | null
+    ): OwnershipTransferredEventFilter;
+    OwnershipTransferred(
+      previousOwner?: PromiseOrValue<string> | null,
+      newOwner?: PromiseOrValue<string> | null
+    ): OwnershipTransferredEventFilter;
 
     "Transfer(address,address,uint256)"(
       from?: PromiseOrValue<string> | null,
@@ -661,9 +891,20 @@ export interface ERC721Tradable extends BaseContract {
   };
 
   estimateGas: {
+    CANNOT_TRANSFER_TO_ZERO_ADDRESS(
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    NOT_CURRENT_OWNER(overrides?: CallOverrides): Promise<BigNumber>;
+
     approve(
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    approveIdea(
+      id: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -672,13 +913,30 @@ export interface ERC721Tradable extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    buy(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getIdea(
+      id: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getIdeas(
+      _ideaIds: PromiseOrValue<BigNumberish>[],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getTokenURI(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    ideaCount(overrides?: CallOverrides): Promise<BigNumber>;
+
+    ideas(
+      arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -688,24 +946,9 @@ export interface ERC721Tradable extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    list(
-      tokenId: PromiseOrValue<BigNumberish>,
-      price: PromiseOrValue<BigNumberish>,
-      duration: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
     name(overrides?: CallOverrides): Promise<BigNumber>;
 
-    orderOfTokenId(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    ordersOfTokenIds(
-      tokenIds: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    owner(overrides?: CallOverrides): Promise<BigNumber>;
 
     ownerOf(
       tokenId: PromiseOrValue<BigNumberish>,
@@ -730,6 +973,18 @@ export interface ERC721Tradable extends BaseContract {
     setApprovalForAll(
       operator: PromiseOrValue<string>,
       approved: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setApprover(
+      approver: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    submitIdea(
+      title: PromiseOrValue<string>,
+      content: PromiseOrValue<string>,
+      submitterName: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -751,12 +1006,33 @@ export interface ERC721Tradable extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
+
+    transferOwnership(
+      _newOwner: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    unapproveIdea(
+      id: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
+    CANNOT_TRANSFER_TO_ZERO_ADDRESS(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    NOT_CURRENT_OWNER(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     approve(
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    approveIdea(
+      id: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -765,13 +1041,30 @@ export interface ERC721Tradable extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    buy(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getIdea(
+      id: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getIdeas(
+      _ideaIds: PromiseOrValue<BigNumberish>[],
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getTokenURI(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    ideaCount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    ideas(
+      arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -781,24 +1074,9 @@ export interface ERC721Tradable extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    list(
-      tokenId: PromiseOrValue<BigNumberish>,
-      price: PromiseOrValue<BigNumberish>,
-      duration: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    orderOfTokenId(
-      tokenId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    ordersOfTokenIds(
-      tokenIds: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     ownerOf(
       tokenId: PromiseOrValue<BigNumberish>,
@@ -826,6 +1104,18 @@ export interface ERC721Tradable extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    setApprover(
+      approver: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    submitIdea(
+      title: PromiseOrValue<string>,
+      content: PromiseOrValue<string>,
+      submitterName: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -842,6 +1132,16 @@ export interface ERC721Tradable extends BaseContract {
       from: PromiseOrValue<string>,
       to: PromiseOrValue<string>,
       tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    transferOwnership(
+      _newOwner: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    unapproveIdea(
+      id: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
   };

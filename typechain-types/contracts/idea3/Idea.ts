@@ -93,6 +93,7 @@ export interface IdeaInterface extends utils.Interface {
     "list(uint256,uint256,uint256)": FunctionFragment;
     "name()": FunctionFragment;
     "orderOfTokenId(uint256)": FunctionFragment;
+    "ordersOfTokenIds(uint256)": FunctionFragment;
     "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
@@ -124,6 +125,7 @@ export interface IdeaInterface extends utils.Interface {
       | "list"
       | "name"
       | "orderOfTokenId"
+      | "ordersOfTokenIds"
       | "owner"
       | "ownerOf"
       | "safeTransferFrom(address,address,uint256)"
@@ -194,6 +196,10 @@ export interface IdeaInterface extends utils.Interface {
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "orderOfTokenId",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "ordersOfTokenIds",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
@@ -289,6 +295,10 @@ export interface IdeaInterface extends utils.Interface {
     functionFragment: "orderOfTokenId",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "ordersOfTokenIds",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(
@@ -323,16 +333,20 @@ export interface IdeaInterface extends utils.Interface {
   events: {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
+    "Bought(uint256,address,address,uint256)": EventFragment;
     "IdeaApproved(uint256)": EventFragment;
     "IdeaSubmitted(uint256,string,string,address,string)": EventFragment;
+    "Listed(uint256,address,uint256,uint256,uint256)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Bought"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "IdeaApproved"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "IdeaSubmitted"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Listed"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
@@ -361,6 +375,19 @@ export type ApprovalForAllEvent = TypedEvent<
 
 export type ApprovalForAllEventFilter = TypedEventFilter<ApprovalForAllEvent>;
 
+export interface BoughtEventObject {
+  tokenId: BigNumber;
+  buyer: string;
+  seller: string;
+  price: BigNumber;
+}
+export type BoughtEvent = TypedEvent<
+  [BigNumber, string, string, BigNumber],
+  BoughtEventObject
+>;
+
+export type BoughtEventFilter = TypedEventFilter<BoughtEvent>;
+
 export interface IdeaApprovedEventObject {
   id: BigNumber;
 }
@@ -384,6 +411,20 @@ export type IdeaSubmittedEvent = TypedEvent<
 >;
 
 export type IdeaSubmittedEventFilter = TypedEventFilter<IdeaSubmittedEvent>;
+
+export interface ListedEventObject {
+  tokenId: BigNumber;
+  lister: string;
+  price: BigNumber;
+  list_time: BigNumber;
+  duration: BigNumber;
+}
+export type ListedEvent = TypedEvent<
+  [BigNumber, string, BigNumber, BigNumber, BigNumber],
+  ListedEventObject
+>;
+
+export type ListedEventFilter = TypedEventFilter<ListedEvent>;
 
 export interface OwnershipTransferredEventObject {
   previousOwner: string;
@@ -513,6 +554,11 @@ export interface Idea extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[ERC721Tradable.TraderOrderStructOutput]>;
+
+    ordersOfTokenIds(
+      tokenIds: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[ERC721Tradable.TraderOrderStructOutput[]]>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
 
@@ -655,6 +701,11 @@ export interface Idea extends BaseContract {
     overrides?: CallOverrides
   ): Promise<ERC721Tradable.TraderOrderStructOutput>;
 
+  ordersOfTokenIds(
+    tokenIds: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<ERC721Tradable.TraderOrderStructOutput[]>;
+
   owner(overrides?: CallOverrides): Promise<string>;
 
   ownerOf(
@@ -796,6 +847,11 @@ export interface Idea extends BaseContract {
       overrides?: CallOverrides
     ): Promise<ERC721Tradable.TraderOrderStructOutput>;
 
+    ordersOfTokenIds(
+      tokenIds: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<ERC721Tradable.TraderOrderStructOutput[]>;
+
     owner(overrides?: CallOverrides): Promise<string>;
 
     ownerOf(
@@ -884,6 +940,19 @@ export interface Idea extends BaseContract {
       approved?: null
     ): ApprovalForAllEventFilter;
 
+    "Bought(uint256,address,address,uint256)"(
+      tokenId?: PromiseOrValue<BigNumberish> | null,
+      buyer?: PromiseOrValue<string> | null,
+      seller?: PromiseOrValue<string> | null,
+      price?: null
+    ): BoughtEventFilter;
+    Bought(
+      tokenId?: PromiseOrValue<BigNumberish> | null,
+      buyer?: PromiseOrValue<string> | null,
+      seller?: PromiseOrValue<string> | null,
+      price?: null
+    ): BoughtEventFilter;
+
     "IdeaApproved(uint256)"(id?: null): IdeaApprovedEventFilter;
     IdeaApproved(id?: null): IdeaApprovedEventFilter;
 
@@ -901,6 +970,21 @@ export interface Idea extends BaseContract {
       submitter?: null,
       submitterName?: null
     ): IdeaSubmittedEventFilter;
+
+    "Listed(uint256,address,uint256,uint256,uint256)"(
+      tokenId?: PromiseOrValue<BigNumberish> | null,
+      lister?: PromiseOrValue<string> | null,
+      price?: null,
+      list_time?: null,
+      duration?: null
+    ): ListedEventFilter;
+    Listed(
+      tokenId?: PromiseOrValue<BigNumberish> | null,
+      lister?: PromiseOrValue<string> | null,
+      price?: null,
+      list_time?: null,
+      duration?: null
+    ): ListedEventFilter;
 
     "OwnershipTransferred(address,address)"(
       previousOwner?: PromiseOrValue<string> | null,
@@ -990,6 +1074,11 @@ export interface Idea extends BaseContract {
 
     orderOfTokenId(
       tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    ordersOfTokenIds(
+      tokenIds: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1125,6 +1214,11 @@ export interface Idea extends BaseContract {
 
     orderOfTokenId(
       tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    ordersOfTokenIds(
+      tokenIds: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

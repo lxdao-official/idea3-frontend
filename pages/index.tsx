@@ -11,7 +11,7 @@ import { Dayjs } from 'dayjs';
 
 import Idea3Head from '../components/Head';
 import TaskNav from '../components/TaskNav';
-import { useIdea } from '../lib/idea3';
+import { useIdeaSBT } from '../lib/idea3';
 import { useEffect, useState } from 'react';
 import { LXDAOLogo, LXDAOIntroduction } from 'lxdao-ui';
 import { List } from '../components/List';
@@ -44,7 +44,7 @@ export default function Home() {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
 
-  const idea = useIdea();
+  const idea = useIdeaSBT();
 
   const [submiting, setSubmiting] = useState(false);
 
@@ -141,9 +141,9 @@ export default function Home() {
           display="flex"
           alignItems="center"
           justify="center"
-          css={{ marginTop: '50px' }}
+          css={{ marginTop: '50px', width: '100%' }}
         >
-          <Container css={{ p: '0px 120px' }}>
+          <Container css={{ width: '1400px', margin: '0 auto' }}>
             <Text
               size={26}
               css={{

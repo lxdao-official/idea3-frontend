@@ -26,14 +26,12 @@ export type { ERC165 } from "./@openzeppelin/contracts/utils/introspection/ERC16
 export { ERC165__factory } from "./factories/@openzeppelin/contracts/utils/introspection/ERC165__factory";
 export type { IERC165 } from "./@openzeppelin/contracts/utils/introspection/IERC165";
 export { IERC165__factory } from "./factories/@openzeppelin/contracts/utils/introspection/IERC165__factory";
-export type { Idea } from "./contracts/idea3/Idea";
-export { Idea__factory } from "./factories/contracts/idea3/Idea__factory";
 export type { IdeaNFT } from "./contracts/idea3/IdeaNFT";
 export { IdeaNFT__factory } from "./factories/contracts/idea3/IdeaNFT__factory";
-export type { IdeaMetadata } from "./contracts/idea3/Metadata.sol/IdeaMetadata";
-export { IdeaMetadata__factory } from "./factories/contracts/idea3/Metadata.sol/IdeaMetadata__factory";
-export type { POAP } from "./contracts/idea3/POAP";
-export { POAP__factory } from "./factories/contracts/idea3/POAP__factory";
+export type { IdeaSBT } from "./contracts/idea3/IdeaSBT";
+export { IdeaSBT__factory } from "./factories/contracts/idea3/IdeaSBT__factory";
+export type { IIdeaSBT } from "./contracts/idea3/IIdeaSBT";
+export { IIdeaSBT__factory } from "./factories/contracts/idea3/IIdeaSBT__factory";
 export type { MockERC20 } from "./contracts/lib/MockERC20";
 export { MockERC20__factory } from "./factories/contracts/lib/MockERC20__factory";
 export type { Ownable } from "./contracts/lib/ownable.sol/Ownable";
