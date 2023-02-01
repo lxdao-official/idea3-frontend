@@ -54,7 +54,6 @@ export function List() {
 
   async function getOwner() {
     const owner = await ideaNFT.owner();
-    console.log('owner', owner);
     if (owner === address) {
       setIsOwner(true);
     }
