@@ -6,7 +6,6 @@ import toast from 'react-hot-toast';
 import { useAccount } from 'wagmi';
 import { config } from '../config';
 import { useIdeaNFTRead, useIdeaSBTRead } from '../lib/idea3';
-import { Idea } from '../typechain-types';
 import { IdeaSBT } from '../typechain-types/contracts/idea3/IdeaSBT';
 
 export function List() {
