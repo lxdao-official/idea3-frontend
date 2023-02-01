@@ -58,6 +58,10 @@ export default function Home() {
       const res = await idea.submitIdea(title, description, name);
       await res.wait();
       toast.success('Submit Success');
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 300);
     } catch (e: any) {
       toast.error(e.message || e.error.message);
     }
