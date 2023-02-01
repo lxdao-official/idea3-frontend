@@ -209,12 +209,14 @@ export function List() {
                     }}
                   >
                     <a
-                      href={`${config.opensea}/assets/ethereum/${config.sbt}/${idea.id}`}
+                      href={`${config.opensea}/${config.sbt}/${idea.id}`}
                       style={{
                         fontSize: '12px',
                         display: 'flex',
                         alignItems: 'center',
                       }}
+                      target="_blank"
+                      rel="noreferrer"
                     >
                       <Image
                         src="/opensea.png"
@@ -229,12 +231,14 @@ export function List() {
                     </a>
                     {idea.approved ? (
                       <a
-                        href={`${config.opensea}/assets/ethereum/${config.nft}/${idea.id}`}
+                        href={`${config.opensea}/${config.nft}/${idea.id}`}
                         style={{
                           fontSize: '12px',
                           display: 'flex',
                           alignItems: 'center',
                         }}
+                        target="_blank"
+                        rel="noreferrer"
                       >
                         <Image
                           src="/opensea.png"
