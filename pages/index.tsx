@@ -113,7 +113,7 @@ export default function Home() {
             }}
           >
             <h2>
-              View all ideas <i>-&gt;</i>
+              View all ideas <i>-{'>'}</i>
             </h2>
             <p>
               All ideas are public goods <br />
@@ -128,7 +128,7 @@ export default function Home() {
             rel="noopener noreferrer"
           >
             <h2>
-              Whitepaper <i>-&gt;</i>
+              Whitepaper <i>-{'>'}</i>
             </h2>
             <p>Join IdeasDAO's OG community and make it better.</p>
           </a>
@@ -147,7 +147,7 @@ export default function Home() {
               >
                 $IDEA
               </span>{' '}
-              <i>-&gt;</i>
+              <i>-{'>'}</i>
             </h2>
             <p>
               Learn about $IDEA and how we designed the idea incentive system
