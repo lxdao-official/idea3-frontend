@@ -1,42 +1,37 @@
-import { Button, Container, Input, Text, Textarea } from '@nextui-org/react';
-import {
-  useAccount,
-  useClient,
-  useEnsName,
-  useNetwork,
-  useSigner,
-} from 'wagmi';
+import Head from 'next/head';
+import Image from 'next/image';
+import { Inter } from '@next/font/google';
 import styles from '../styles/Home.module.css';
-import { Dayjs } from 'dayjs';
-
-import Idea3Head from '../components/Head';
-import TaskNav from '../components/TaskNav';
-import { useIdeaSBT } from '../lib/idea3';
+import { LXDAOLogo } from 'lxdao-ui';
+import {
+  Button,
+  Container,
+  Input,
+  Modal,
+  Text,
+  Textarea,
+} from '@nextui-org/react';
 import { useEffect, useState } from 'react';
-import { LXDAOLogo, LXDAOIntroduction } from 'lxdao-ui';
+import { useAccount, useEnsName } from 'wagmi';
+import { useIdeaSBT } from '../lib/idea3';
+import toast from 'react-hot-toast';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { List } from '../components/List';
-import { toast } from 'react-hot-toast';
 
-export interface Order {
-  amount: number;
-  deadlineTimestamp: number;
-}
-
-export interface OrderGroup {
-  title: string;
-  employer: string;
-  publisher: string;
-  intercessor: string;
-  token: string;
-  orders: Order[];
-}
-
-export interface MileStone {
-  amount: number;
-  ddl: Dayjs;
-}
+const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showListModal, setShowListModal] = useState(false);
+  function closeHandler() {
+    console.log('close');
+    setShowCreateModal(false);
+  }
+
+  function closeListHandler() {
+    console.log('close');
+    setShowListModal(false);
+  }
   const { address, isConnected, status } = useAccount();
   const { data: ensName } = useEnsName(address);
 
@@ -74,30 +69,117 @@ export default function Home() {
       setName(ensName);
     }
   }, [ensName]);
-
   return (
-    <div className={styles.container}>
-      <Idea3Head />
+    <>
+      <Head>
+        <title>Idea3</title>
+        <meta name="description" content="Make more ideas reality" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <main className={styles.main}>
-        <TaskNav />
-        <Container
-          display="flex"
-          alignItems="center"
-          justify="center"
-          css={{ marginTop: '4vh' }}
-        >
-          <Container css={{ mw: '840px', p: '20px' }}>
-            <Container>
-              <Text
-                size={26}
-                css={{
-                  as: 'center',
-                  mb: '20px',
+        <div className={styles.description}>
+          <ConnectButton />
+        </div>
+
+        <div className={styles.center}>
+          <div className={styles.mission}>our mission</div>
+          <div className={styles.center_title}>Make more ideas reality</div>
+          <div className={styles.sub_title}>
+            Share your ideas, get $IDEA and support from the community, and make
+            it reality.
+          </div>
+
+          <div className={styles.center_button}>
+            <Button
+              onClick={() => {
+                setShowCreateModal(true);
+              }}
+              color="secondary"
+              size={'lg'}
+            >
+              Submit new idea
+            </Button>
+          </div>
+        </div>
+
+        <div className={styles.grid}>
+          <a
+            className={styles.card}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => {
+              setShowListModal(true);
+            }}
+          >
+            <h2>
+              View all ideas <i>-&gt;</i>
+            </h2>
+            <p>
+              All ideas are public goods <br />
+              you can support by donate or giving some good advice
+            </p>
+          </a>
+
+          <a
+            href="/ideas.pdf"
+            className={styles.card}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <h2>
+              Whitepaper <i>-&gt;</i>
+            </h2>
+            <p>Join IdeasDAO's OG community and make it better.</p>
+          </a>
+          <a
+            href="/ideas.pdf"
+            className={styles.card}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <h2>
+              <span
+                style={{
+                  fontWeight: 'bold',
+                  color: '#720ded',
                 }}
               >
-                Submit New Idea
-              </Text>
-            </Container>
+                $IDEA
+              </span>{' '}
+              <i>-&gt;</i>
+            </h2>
+            <p>
+              Learn about $IDEA and how we designed the idea incentive system
+            </p>
+          </a>
+        </div>
+        <div
+          style={{
+            marginTop: '50px',
+          }}
+        >
+          <a
+            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <LXDAOLogo />
+          </a>
+        </div>
+        <Modal
+          closeButton
+          aria-labelledby="modal-title"
+          open={showCreateModal}
+          width="600px"
+          onClose={closeHandler}
+        >
+          <Modal.Header>
+            <Text id="modal-title" size={18}>
+              Submit new Idea
+            </Text>
+          </Modal.Header>
+          <Modal.Body>
             <Container>
               <Input
                 label="title"
@@ -124,46 +206,45 @@ export default function Home() {
                 onChange={(e) => setName(e.target.value)}
               />
             </Container>
-            <Container css={{ mt: '20px' }}>
-              {isConnected ? (
-                <Button
-                  color="primary"
-                  auto
-                  onClick={submit}
-                  disabled={submiting}
-                >
-                  Submit on Chain
-                </Button>
-              ) : (
-                // <ConnectButton />
-                <Text>Connect Wallet First</Text>
-              )}
-            </Container>
-          </Container>
-        </Container>
-        <Container
-          display="flex"
-          alignItems="center"
-          justify="center"
-          css={{ marginTop: '50px', width: '100%' }}
+          </Modal.Body>
+          <Modal.Footer
+            justify="center"
+            style={{
+              padding: '20px',
+            }}
+          >
+            {isConnected ? (
+              <Button
+                color="primary"
+                auto
+                onClick={submit}
+                disabled={submiting}
+              >
+                Submit to Chain
+              </Button>
+            ) : (
+              // <ConnectButton />
+              <Text>Connect Wallet First</Text>
+            )}
+          </Modal.Footer>
+        </Modal>
+        <Modal
+          closeButton
+          aria-labelledby="modal-title"
+          open={showListModal}
+          width="90%"
+          onClose={closeListHandler}
         >
-          <Container css={{ width: '1400px', margin: '0 auto' }}>
-            <Text
-              size={26}
-              css={{
-                as: 'center',
-                mb: '20px',
-              }}
-            >
+          <Modal.Header>
+            <Text id="modal-title" size={18}>
               Idea List
             </Text>
+          </Modal.Header>
+          <Modal.Body>
             <List />
-          </Container>
-        </Container>
+          </Modal.Body>
+        </Modal>
       </main>
-      <footer className={styles.footer}>
-        <LXDAOLogo />
-      </footer>
-    </div>
+    </>
   );
 }

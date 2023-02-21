@@ -20,24 +20,18 @@ const wagmiClient = createClient({
   connectors,
   provider,
 });
-const theme = createTheme({
-  type: 'light', // it could be "light" or "dark"
-  theme: {
-    space: {},
-    fonts: {
-      sans: 'Montserrat, sans-serif',
-      mono: 'Montserrat, sans-serif',
-    },
-  },
-});
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains} initialChain={goerli}>
-        <NextUIProvider theme={theme}>
+        <NextUIProvider>
           <Component {...pageProps} />
-          <Toaster />
+          <Toaster
+            containerStyle={{
+              zIndex: 99999999999,
+            }}
+          />
         </NextUIProvider>
       </RainbowKitProvider>
     </WagmiConfig>
