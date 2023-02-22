@@ -11,7 +11,7 @@ const { chains, provider } = configureChains(
   [config.chain],
   [
     infuraProvider({
-      apiKey: 'a271eceff30c4e33bba28de58bd16bc5',
+      apiKey: '65b8d84e5b0f4245b8df59f87373cd5b',
     }),
   ],
 );
