@@ -215,7 +215,7 @@ export default function Home() {
                 maxLength={30}
                 width="100%"
                 value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                onChange={(e) => e.target.value && setTitle(e.target.value)}
               />
               <Input
                 label="your name"
@@ -223,7 +223,7 @@ export default function Home() {
                 maxLength={30}
                 width="100%"
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => e.target.value && setName(e.target.value)}
               />
               <Textarea
                 label="description"
@@ -231,7 +231,9 @@ export default function Home() {
                 maxLength={100}
                 width="100%"
                 value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                onChange={(e) =>
+                  e.target.value && setDescription(e.target.value)
+                }
               />
 
               <Textarea
@@ -240,7 +242,7 @@ export default function Home() {
                 maxLength={1000}
                 width="100%"
                 value={markdown}
-                onChange={(e) => setMarkdown(e.target.value)}
+                onChange={(e) => e.target.value && setMarkdown(e.target.value)}
               />
             </Container>
           </Modal.Body>
