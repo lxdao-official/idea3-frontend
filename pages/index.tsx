@@ -212,7 +212,7 @@ export default function Home() {
               <Input
                 label="title"
                 placeholder="Please input idea title, max 30 characters"
-                maxLength={30}
+                maxLength={70}
                 width="100%"
                 value={title}
                 onChange={(e) => e.target.value && setTitle(e.target.value)}
