@@ -5,13 +5,19 @@ import '@rainbow-me/rainbowkit/styles.css';
 import toast, { Toaster } from 'react-hot-toast';
 import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { configureChains, createClient, WagmiConfig } from 'wagmi';
-import { alchemyProvider } from 'wagmi/providers/alchemy';
-import { publicProvider } from 'wagmi/providers/public';
-import { mainnet, goerli } from 'wagmi/chains';
-const { chains, provider } = configureChains([goerli], [publicProvider()]);
+import { infuraProvider } from 'wagmi/providers/infura';
+import { config } from '../config';
+const { chains, provider } = configureChains(
+  [config.chain],
+  [
+    infuraProvider({
+      apiKey: 'a271eceff30c4e33bba28de58bd16bc5',
+    }),
+  ],
+);
 
 const { connectors } = getDefaultWallets({
-  appName: 'Task3',
+  appName: 'Idea3',
   chains,
 });
 
@@ -24,7 +30,7 @@ const wagmiClient = createClient({
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains} initialChain={goerli}>
+      <RainbowKitProvider chains={chains} initialChain={config.chain}>
         <NextUIProvider>
           <Component {...pageProps} />
           <Toaster
