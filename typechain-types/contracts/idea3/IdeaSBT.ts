@@ -9,6 +9,7 @@ import type {
   CallOverrides,
   ContractTransaction,
   Overrides,
+  PayableOverrides,
   PopulatedTransaction,
   Signer,
   utils,
@@ -31,7 +32,8 @@ export declare namespace IdeaSBT {
   export type IdeaStructStruct = {
     id: PromiseOrValue<BigNumberish>;
     title: PromiseOrValue<string>;
-    content: PromiseOrValue<string>;
+    desc: PromiseOrValue<string>;
+    markdown: PromiseOrValue<string>;
     submitter: PromiseOrValue<string>;
     submitterName: PromiseOrValue<string>;
     approved: PromiseOrValue<boolean>;
@@ -43,11 +45,13 @@ export declare namespace IdeaSBT {
     string,
     string,
     string,
+    string,
     boolean
   ] & {
     id: BigNumber;
     title: string;
-    content: string;
+    desc: string;
+    markdown: string;
     submitter: string;
     submitterName: string;
     approved: boolean;
@@ -75,7 +79,9 @@ export interface IdeaSBTInterface extends utils.Interface {
     "safeTransferFrom(address,address,uint256,bytes)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
     "setApprover(address)": FunctionFragment;
-    "submitIdea(string,string,string)": FunctionFragment;
+    "setFee(uint256)": FunctionFragment;
+    "setFeeOn(bool)": FunctionFragment;
+    "submitIdea(string,string,string,string)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
     "tokenURI(uint256)": FunctionFragment;
@@ -105,6 +111,8 @@ export interface IdeaSBTInterface extends utils.Interface {
       | "safeTransferFrom(address,address,uint256,bytes)"
       | "setApprovalForAll"
       | "setApprover"
+      | "setFee"
+      | "setFeeOn"
       | "submitIdea"
       | "supportsInterface"
       | "symbol"
@@ -191,8 +199,17 @@ export interface IdeaSBTInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "setFee",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setFeeOn",
+    values: [PromiseOrValue<boolean>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "submitIdea",
     values: [
+      PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<string>
@@ -273,6 +290,8 @@ export interface IdeaSBTInterface extends utils.Interface {
     functionFragment: "setApprover",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "setFee", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setFeeOn", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "submitIdea", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "supportsInterface",
@@ -297,7 +316,7 @@ export interface IdeaSBTInterface extends utils.Interface {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
     "IdeaApproved(uint256)": EventFragment;
-    "IdeaSubmitted(uint256,string,string,address,string)": EventFragment;
+    "IdeaSubmitted(uint256,string,string,string,address,string)": EventFragment;
     "IdeaUnapproved(uint256)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
@@ -349,12 +368,13 @@ export type IdeaApprovedEventFilter = TypedEventFilter<IdeaApprovedEvent>;
 export interface IdeaSubmittedEventObject {
   id: BigNumber;
   name: string;
-  content: string;
+  desc: string;
+  markdown: string;
   submitter: string;
   submitterName: string;
 }
 export type IdeaSubmittedEvent = TypedEvent<
-  [BigNumber, string, string, string, string],
+  [BigNumber, string, string, string, string, string],
   IdeaSubmittedEventObject
 >;
 
@@ -451,7 +471,7 @@ export interface IdeaSBT extends BaseContract {
     getIdea(
       id: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<[string, string, string, string, boolean]>;
+    ): Promise<[string, string, string, string, string, boolean, BigNumber]>;
 
     getIdeas(
       _ideaIds: PromiseOrValue<BigNumberish>[],
@@ -469,10 +489,11 @@ export interface IdeaSBT extends BaseContract {
       arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, string, string, string, string, boolean] & {
+      [BigNumber, string, string, string, string, string, boolean] & {
         id: BigNumber;
         title: string;
-        content: string;
+        desc: string;
+        markdown: string;
         submitter: string;
         submitterName: string;
         approved: boolean;
@@ -520,11 +541,22 @@ export interface IdeaSBT extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    setFee(
+      fee: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setFeeOn(
+      feeOn: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     submitIdea(
       title: PromiseOrValue<string>,
-      content: PromiseOrValue<string>,
+      desc: PromiseOrValue<string>,
+      markdown: PromiseOrValue<string>,
       submitterName: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     supportsInterface(
@@ -585,7 +617,7 @@ export interface IdeaSBT extends BaseContract {
   getIdea(
     id: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
-  ): Promise<[string, string, string, string, boolean]>;
+  ): Promise<[string, string, string, string, string, boolean, BigNumber]>;
 
   getIdeas(
     _ideaIds: PromiseOrValue<BigNumberish>[],
@@ -603,10 +635,11 @@ export interface IdeaSBT extends BaseContract {
     arg0: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<
-    [BigNumber, string, string, string, string, boolean] & {
+    [BigNumber, string, string, string, string, string, boolean] & {
       id: BigNumber;
       title: string;
-      content: string;
+      desc: string;
+      markdown: string;
       submitter: string;
       submitterName: string;
       approved: boolean;
@@ -654,11 +687,22 @@ export interface IdeaSBT extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  setFee(
+    fee: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setFeeOn(
+    feeOn: PromiseOrValue<boolean>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   submitIdea(
     title: PromiseOrValue<string>,
-    content: PromiseOrValue<string>,
+    desc: PromiseOrValue<string>,
+    markdown: PromiseOrValue<string>,
     submitterName: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   supportsInterface(
@@ -719,7 +763,7 @@ export interface IdeaSBT extends BaseContract {
     getIdea(
       id: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<[string, string, string, string, boolean]>;
+    ): Promise<[string, string, string, string, string, boolean, BigNumber]>;
 
     getIdeas(
       _ideaIds: PromiseOrValue<BigNumberish>[],
@@ -737,10 +781,11 @@ export interface IdeaSBT extends BaseContract {
       arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, string, string, string, string, boolean] & {
+      [BigNumber, string, string, string, string, string, boolean] & {
         id: BigNumber;
         title: string;
-        content: string;
+        desc: string;
+        markdown: string;
         submitter: string;
         submitterName: string;
         approved: boolean;
@@ -788,9 +833,20 @@ export interface IdeaSBT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setFee(
+      fee: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setFeeOn(
+      feeOn: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     submitIdea(
       title: PromiseOrValue<string>,
-      content: PromiseOrValue<string>,
+      desc: PromiseOrValue<string>,
+      markdown: PromiseOrValue<string>,
       submitterName: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -851,17 +907,19 @@ export interface IdeaSBT extends BaseContract {
     "IdeaApproved(uint256)"(id?: null): IdeaApprovedEventFilter;
     IdeaApproved(id?: null): IdeaApprovedEventFilter;
 
-    "IdeaSubmitted(uint256,string,string,address,string)"(
+    "IdeaSubmitted(uint256,string,string,string,address,string)"(
       id?: null,
       name?: null,
-      content?: null,
+      desc?: null,
+      markdown?: null,
       submitter?: null,
       submitterName?: null
     ): IdeaSubmittedEventFilter;
     IdeaSubmitted(
       id?: null,
       name?: null,
-      content?: null,
+      desc?: null,
+      markdown?: null,
       submitter?: null,
       submitterName?: null
     ): IdeaSubmittedEventFilter;
@@ -981,11 +1039,22 @@ export interface IdeaSBT extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    setFee(
+      fee: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setFeeOn(
+      feeOn: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     submitIdea(
       title: PromiseOrValue<string>,
-      content: PromiseOrValue<string>,
+      desc: PromiseOrValue<string>,
+      markdown: PromiseOrValue<string>,
       submitterName: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     supportsInterface(
@@ -1109,11 +1178,22 @@ export interface IdeaSBT extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    setFee(
+      fee: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setFeeOn(
+      feeOn: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     submitIdea(
       title: PromiseOrValue<string>,
-      content: PromiseOrValue<string>,
+      desc: PromiseOrValue<string>,
+      markdown: PromiseOrValue<string>,
       submitterName: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     supportsInterface(

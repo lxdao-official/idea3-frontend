@@ -12,7 +12,7 @@ import {
   Textarea,
 } from '@nextui-org/react';
 import { useEffect, useState } from 'react';
-import { useAccount, useEnsName } from 'wagmi';
+import { useAccount, useEnsName, useSigner } from 'wagmi';
 import { useIdeaSBT } from '../lib/idea3';
 import toast from 'react-hot-toast';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
@@ -32,13 +32,15 @@ export default function Home() {
     console.log('close');
     setShowListModal(false);
   }
+  const { data: signer } = useSigner();
   const { address, isConnected, status } = useAccount();
   const { data: ensName } = useEnsName(address);
 
   const [title, setTitle] = useState('');
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-
+  const [markdown, setMarkdown] = useState('');
+  const [ideaCount, setIdeaCount] = useState(0);
   const idea = useIdeaSBT();
 
   const [submiting, setSubmiting] = useState(false);
@@ -50,7 +52,7 @@ export default function Home() {
       if (!title || !description || !name) {
         throw new Error('Please input all fields');
       }
-      const res = await idea.submitIdea(title, description, name);
+      const res = await idea.submitIdea(title, description, markdown, name);
       await res.wait();
       toast.success('Submit Success');
 
@@ -64,21 +66,43 @@ export default function Home() {
     setSubmiting(false);
   }
 
+  async function getIdeaCount() {
+    try {
+      const ideaCount = await idea.ideaCount();
+      setIdeaCount(ideaCount.toNumber());
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   useEffect(() => {
     if (ensName) {
       setName(ensName);
     }
   }, [ensName]);
+
+  useEffect(() => {
+    if (isConnected) getIdeaCount();
+  }, [signer]);
   return (
     <>
       <Head>
-        <title>Idea3</title>
-        <meta name="description" content="Make more ideas reality" />
+        <title>Idea3 - Make more ideas reality</title>
+        <meta
+          name="description"
+          content="Share your ideas, get $IDEA and support from the community, and make
+            it reality."
+        />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
         <div className={styles.description}>
+          <div className={styles.logo}>
+            <Text b color="inherit" size={30}>
+              Idea3
+            </Text>
+          </div>
           <ConnectButton />
         </div>
 
@@ -113,7 +137,9 @@ export default function Home() {
             }}
           >
             <h2>
-              View all ideas <i>-{'>'}</i>
+              <span>
+                View all ideas ({ideaCount}) <i>-{'>'}</i>
+              </span>
             </h2>
             <p>
               All ideas are public goods <br />
@@ -128,7 +154,9 @@ export default function Home() {
             rel="noopener noreferrer"
           >
             <h2>
-              Whitepaper <i>-{'>'}</i>
+              <span>
+                Whitepaper <i>-{'>'}</i>
+              </span>
             </h2>
             <p>Join IdeasDAO's OG community and make it better.</p>
           </a>
@@ -146,8 +174,8 @@ export default function Home() {
                 }}
               >
                 $IDEA
+                <i>-{'>'}</i>
               </span>{' '}
-              <i>-{'>'}</i>
             </h2>
             <p>
               Learn about $IDEA and how we designed the idea incentive system
@@ -189,6 +217,14 @@ export default function Home() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
+              <Input
+                label="your name"
+                placeholder="Please input your name, max 30 characters"
+                maxLength={30}
+                width="100%"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
               <Textarea
                 label="description"
                 placeholder="Please input idea description, max 100 characters"
@@ -197,13 +233,14 @@ export default function Home() {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
               />
-              <Input
-                label="your name"
-                placeholder="Please input your name, max 30 characters"
-                maxLength={30}
+
+              <Textarea
+                label="other info"
+                placeholder="Please input more information, markdown format"
+                maxLength={1000}
                 width="100%"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={markdown}
+                onChange={(e) => setMarkdown(e.target.value)}
               />
             </Container>
           </Modal.Body>
@@ -240,7 +277,12 @@ export default function Home() {
               Idea List
             </Text>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body
+            style={{
+              maxHeight: '800px',
+              overflow: 'auto',
+            }}
+          >
             <List />
           </Modal.Body>
         </Modal>

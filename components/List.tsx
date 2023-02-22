@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useAccount } from 'wagmi';
 import { config } from '../config';
-import { useIdeaNFTRead, useIdeaSBTRead } from '../lib/idea3';
+import { useIdeaSBTRead } from '../lib/idea3';
 import { IdeaSBT } from '../typechain-types/contracts/idea3/IdeaSBT';
 
 export function List() {
@@ -19,7 +19,7 @@ export function List() {
   const [ideaCount, setIdeaCount] = useState(0);
   const [nowPage, setNowPage] = useState(1);
   const idea = useIdeaSBTRead();
-  const ideaNFT = useIdeaNFTRead();
+  // const ideaNFT = useIdeaNFTRead();
 
   const [isOwner, setIsOwner] = useState(false);
 
@@ -42,8 +42,8 @@ export function List() {
     setIdeas(_ideas);
 
     for (let i = 0; i < _ideas.length; i++) {
-      const idea = _ideas[i];
-      const isTokenOwner = await ideaNFT.ownerOf(idea.id);
+      const _idea = _ideas[i];
+      const isTokenOwner = await idea.ownerOf(_idea.id);
       if (isTokenOwner === address) {
         _ideas[i].isTokenOwner = true;
       }
@@ -53,53 +53,53 @@ export function List() {
   }
 
   async function getOwner() {
-    const owner = await ideaNFT.owner();
+    const owner = await idea.owner();
     if (owner === address) {
       setIsOwner(true);
     }
   }
 
   async function approve(tokenId: string) {
-    const loading = toast.loading('Approving...');
-    try {
-      const res = await ideaNFT.approveIdea(tokenId);
-      await res.wait();
-      toast.success('Approve Success');
-      getIdeas();
-    } catch (e: any) {
-      toast.error(e.message || e.error.message);
-    }
+    // const loading = toast.loading('Approving...');
+    // try {
+    //   const res = await ideaNFT.approveIdea(tokenId);
+    //   await res.wait();
+    //   toast.success('Approve Success');
+    //   getIdeas();
+    // } catch (e: any) {
+    //   toast.error(e.message || e.error.message);
+    // }
   }
-  async function buy(tokenId: string) {
-    const loading = toast.loading('Buying...');
-    try {
-      const info = await ideaNFT.orderOfTokenId(tokenId);
-      const price = info.price;
+  // async function buy(tokenId: string) {
+  //   const loading = toast.loading('Buying...');
+  //   try {
+  //     const info = await ideaNFT.orderOfTokenId(tokenId);
+  //     const price = info.price;
 
-      const res = await ideaNFT.buy(tokenId, {
-        value: price,
-      });
-      await res.wait();
-      toast.success('Buy Success');
-      getIdeas();
-    } catch (e: any) {
-      toast.error(e.message || e.error.message);
-    }
-  }
+  //     const res = await ideaNFT.buy(tokenId, {
+  //       value: price,
+  //     });
+  //     await res.wait();
+  //     toast.success('Buy Success');
+  //     getIdeas();
+  //   } catch (e: any) {
+  //     toast.error(e.message || e.error.message);
+  //   }
+  // }
   async function list(tokenId: string, price: number, duration: number) {
-    const loading = toast.loading('Listing...');
-    try {
-      const res = await ideaNFT.list(
-        tokenId,
-        utils.parseEther(price.toString()),
-        duration,
-      );
-      await res.wait();
-      toast.success('List Success');
-      getIdeas();
-    } catch (e: any) {
-      toast.error(e.message || e.error.message);
-    }
+    // const loading = toast.loading('Listing...');
+    // try {
+    //   const res = await ideaNFT.list(
+    //     tokenId,
+    //     utils.parseEther(price.toString()),
+    //     duration,
+    //   );
+    //   await res.wait();
+    //   toast.success('List Success');
+    //   getIdeas();
+    // } catch (e: any) {
+    //   toast.error(e.message || e.error.message);
+    // }
   }
 
   useEffect(() => {
@@ -154,7 +154,7 @@ export function List() {
                         width: '300px',
                       }}
                     >
-                      {idea.content}
+                      {idea.desc}
                     </div>
                   </div>
                 </Table.Cell>
@@ -281,14 +281,14 @@ export function List() {
                     >
                       List for Sale
                     </Button>
-                    <Button
+                    {/* <Button
                       size={'xs'}
                       onClick={() => {
                         buy(idea.id.toString());
                       }}
                     >
                       Buy
-                    </Button>
+                    </Button> */}
                   </div>
                 </Table.Cell>
               </Table.Row>
