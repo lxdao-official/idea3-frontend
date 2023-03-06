@@ -6,8 +6,11 @@ import toast from 'react-hot-toast';
 import { useAccount } from 'wagmi';
 import { config } from '../config';
 import { useIdeaSBTRead } from '../lib/idea3';
-import { IdeaSBT } from '../typechain-types/contracts/idea3/IdeaSBT';
+import { IdeaSBT } from '../types/contracts/idea3/IdeaSBT';
 
+function formatAddress(address: string) {
+  return `${address.slice(0, 6)}...${address.slice(-4)}`;
+}
 export function List() {
   const { address, isConnected, status } = useAccount();
   const [ideas, setIdeas] = useState<
@@ -24,7 +27,7 @@ export function List() {
   const [isOwner, setIsOwner] = useState(false);
 
   async function getIdeas(_page: number = 1) {
-    const ideaCount = await idea.ideaCount();
+    const ideaCount = await idea.topicCount();
     setIdeaCount(ideaCount.toNumber());
 
     const _ids = [];
@@ -112,13 +115,14 @@ export function List() {
   }, [nowPage]);
 
   return (
-    <div>
-      <Table
-        css={{
-          height: 'auto',
-          minWidth: '100%',
-        }}
-      >
+    <div
+      style={{
+        height: 'auto',
+        width: '1200px',
+        marginTop: '50px',
+      }}
+    >
+      <Table>
         <Table.Header>
           <Table.Column>ID</Table.Column>
           <Table.Column>Title</Table.Column>
@@ -131,18 +135,22 @@ export function List() {
           {ideas.map((idea, index) => {
             return (
               <Table.Row key={index}>
-                <Table.Cell>{'#' + idea.id.toString()}</Table.Cell>
+                <Table.Cell
+                  css={{
+                    width: '80px',
+                  }}
+                >
+                  {'#' + idea.id.toString()}
+                </Table.Cell>
                 <Table.Cell>
                   <div
                     style={{
-                      width: '320px',
                       paddingRight: '30px',
                     }}
                   >
                     <div
                       style={{
                         fontSize: '16px',
-                        width: '300px',
                       }}
                     >
                       {idea.title}
@@ -151,20 +159,25 @@ export function List() {
                       style={{
                         color: 'gray',
                         fontSize: '12px',
-                        width: '300px',
+                        wordBreak: 'break-all',
+                        whiteSpace: 'pre-wrap',
                       }}
                     >
                       {idea.desc}
                     </div>
                   </div>
                 </Table.Cell>
-                <Table.Cell>
+                <Table.Cell
+                  css={{
+                    width: '150px',
+                  }}
+                >
                   <div
                     style={{
                       fontSize: '16px',
                     }}
                   >
-                    {idea.submitterName}
+                    @{idea.submitterHandle}
                   </div>
                   <div
                     style={{
@@ -172,16 +185,19 @@ export function List() {
                       fontSize: '12px',
                     }}
                   >
-                    {idea.submitter}
+                    {formatAddress(idea.submitter)}
                   </div>
                 </Table.Cell>
-                <Table.Cell>
+                <Table.Cell
+                  css={{
+                    width: '120px',
+                  }}
+                >
                   {idea.approved ? (
                     <Badge
                       color="success"
                       style={{
                         width: '50px',
-                        paddingRight: '20px',
                       }}
                     >
                       YES
@@ -190,21 +206,22 @@ export function List() {
                     <Badge
                       style={{
                         width: '50px',
-                        paddingRight: '20px',
                       }}
                     >
                       NO
                     </Badge>
                   )}
                 </Table.Cell>
-                <Table.Cell>
+                <Table.Cell
+                  css={{
+                    width: '100px',
+                  }}
+                >
                   <div
                     style={{
                       display: 'flex',
-                      justifyContent: 'center',
                       gap: '20px',
                       alignItems: 'center',
-                      width: '100px',
                     }}
                   >
                     <a
@@ -230,7 +247,6 @@ export function List() {
                     </a>
                     {idea.approved ? (
                       <a
-                        href={`${config.opensea}/${config.nft}/${idea.id}`}
                         style={{
                           fontSize: '12px',
                           display: 'flex',
@@ -257,7 +273,6 @@ export function List() {
                   <div
                     style={{
                       display: 'flex',
-                      justifyContent: 'center',
                       gap: '10px',
                       width: '100px',
                       flexWrap: 'wrap',
@@ -309,7 +324,7 @@ export function List() {
         />
         <span
           style={{
-            marginLeft: '10px',
+            marginLeft: '16px',
           }}
         >
           Total: {ideaCount}

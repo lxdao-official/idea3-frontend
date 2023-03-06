@@ -95,11 +95,11 @@
 }
 .center_title {
   font-size: 100px;
-  line-height: 100px;
+  line-height: 150px;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 30px;
-  margin-top: 40px;
+  margin-bottom: 0px;
+  margin-top: 0px;
   background: linear-gradient(
     91.75deg,
     #7de2ac 0%,

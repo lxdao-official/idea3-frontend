@@ -11,16 +11,20 @@ import {
   Text,
   Textarea,
 } from '@nextui-org/react';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useAccount, useEnsName, useSigner } from 'wagmi';
-import { useIdeaSBT } from '../lib/idea3';
+import { useIdeaDID, useIdeaSBT } from '../lib/idea3';
 import toast from 'react-hot-toast';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { List } from '../components/List';
+import MintDID from '../components/MintDID';
+import { BindDidContext, DIDContext, useDID } from '../contexts/did.context';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
+  const { showMintModalHandler } = useContext(DIDContext);
+  const { showBindDidModalHandler } = useContext(BindDidContext);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showListModal, setShowListModal] = useState(false);
   function closeHandler() {
@@ -42,6 +46,7 @@ export default function Home() {
   const [markdown, setMarkdown] = useState('');
   const [ideaCount, setIdeaCount] = useState(0);
   const idea = useIdeaSBT();
+  const did = useIdeaDID();
 
   const [submiting, setSubmiting] = useState(false);
 
@@ -52,7 +57,7 @@ export default function Home() {
       if (!title || !description || !name) {
         throw new Error('Please input all fields');
       }
-      const res = await idea.submitIdea(title, description, markdown, name);
+      const res = await idea.submitIdea(title, description, markdown);
       await res.wait();
       toast.success('Submit Success');
 
@@ -68,11 +73,24 @@ export default function Home() {
 
   async function getIdeaCount() {
     try {
-      const ideaCount = await idea.ideaCount();
+      const ideaCount = await idea.topicCount();
       setIdeaCount(ideaCount.toNumber());
     } catch (e) {
       console.log(e);
     }
+  }
+
+  async function createNewIdea() {
+    const didBalance = await did.balanceOf(address as string);
+    const lockedDid = await did.resolveAddressToDid(address as string);
+    if (didBalance.toNumber() === 0) {
+      showMintModalHandler();
+      return;
+    } else if (!lockedDid) {
+      showBindDidModalHandler();
+      return;
+    }
+    setShowCreateModal(true);
   }
 
   useEffect(() => {
@@ -82,8 +100,9 @@ export default function Home() {
   }, [ensName]);
 
   useEffect(() => {
-    if (isConnected) getIdeaCount();
-  }, [signer]);
+    getIdeaCount();
+  }, []);
+
   return (
     <>
       <Head>
@@ -117,7 +136,7 @@ export default function Home() {
           <div className={styles.center_button}>
             <Button
               onClick={() => {
-                setShowCreateModal(true);
+                createNewIdea();
               }}
               color="secondary"
               size={'lg'}
@@ -127,61 +146,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className={styles.grid}>
-          <a
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => {
-              setShowListModal(true);
-            }}
-          >
-            <h2>
-              <span>
-                View all ideas ({ideaCount}) <i>-{'>'}</i>
-              </span>
-            </h2>
-            <p>
-              All ideas are public goods <br />
-              you can support by donate or giving some good advice
-            </p>
-          </a>
-
-          <a
-            href="/ideas.pdf"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              <span>
-                Whitepaper <i>-{'>'}</i>
-              </span>
-            </h2>
-            <p>Join IdeasDAO's OG community and make it better.</p>
-          </a>
-          <a
-            href="/ideas.pdf"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              <span
-                style={{
-                  fontWeight: 'bold',
-                  color: '#720ded',
-                }}
-              >
-                $IDEA
-                <i>-{'>'}</i>
-              </span>{' '}
-            </h2>
-            <p>
-              Learn about $IDEA and how we designed the idea incentive system
-            </p>
-          </a>
-        </div>
+        <List />
         <div
           style={{
             marginTop: '50px',
@@ -195,6 +160,7 @@ export default function Home() {
             <LXDAOLogo />
           </a>
         </div>
+        <MintDID />
         <Modal
           closeButton
           aria-labelledby="modal-title"
@@ -266,27 +232,6 @@ export default function Home() {
               <Text>Connect Wallet First</Text>
             )}
           </Modal.Footer>
-        </Modal>
-        <Modal
-          closeButton
-          aria-labelledby="modal-title"
-          open={showListModal}
-          width="90%"
-          onClose={closeListHandler}
-        >
-          <Modal.Header>
-            <Text id="modal-title" size={18}>
-              Idea List
-            </Text>
-          </Modal.Header>
-          <Modal.Body
-            style={{
-              maxHeight: '800px',
-              overflow: 'auto',
-            }}
-          >
-            <List />
-          </Modal.Body>
         </Modal>
       </main>
     </>

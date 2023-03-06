@@ -103,12 +103,12 @@
   font-weight: bold;
 }
 * {
-  font-family: Josefin Slab, Montserrat, Inter, Roboto, -apple-system,
-    BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif;
+  font-family: Montserrat, Inter, Roboto, -apple-system, BlinkMacSystemFont,
+    PingFang SC, Microsoft YaHei, sans-serif;
 }
 body p {
-  font-family: Josefin Slab, Montserrat, Inter, Roboto, -apple-system,
-    BlinkMacSystemFont, PingFang SC, Microsoft YaHei, sans-serif;
+  font-family: Montserrat, Inter, Roboto, -apple-system, BlinkMacSystemFont,
+    PingFang SC, Microsoft YaHei, sans-serif;
 }
 
 html,

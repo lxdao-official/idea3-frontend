@@ -6,12 +6,24 @@ import toast, { Toaster } from 'react-hot-toast';
 import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { configureChains, createClient, WagmiConfig } from 'wagmi';
 import { infuraProvider } from 'wagmi/providers/infura';
+import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
 import { config } from '../config';
+import {
+  BindDidContext,
+  DIDContext,
+  useBindDid,
+  useDID,
+} from '../contexts/did.context';
 const { chains, provider } = configureChains(
   [config.chain],
   [
     infuraProvider({
-      apiKey: '65b8d84e5b0f4245b8df59f87373cd5b',
+      apiKey: config.infuraApiKey,
+    }),
+    jsonRpcProvider({
+      rpc: () => {
+        return { http: 'http://localhost:8545' };
+      },
     }),
   ],
 );
@@ -28,18 +40,24 @@ const wagmiClient = createClient({
 });
 
 export default function App({ Component, pageProps }: AppProps) {
+  const didContext = useDID();
+  const didBindContext = useBindDid();
   return (
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains} initialChain={config.chain}>
-        <NextUIProvider>
-          <Component {...pageProps} />
-          <Toaster
-            containerStyle={{
-              zIndex: 99999999999,
-            }}
-          />
-        </NextUIProvider>
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <DIDContext.Provider value={didContext}>
+      <BindDidContext.Provider value={didBindContext}>
+        <WagmiConfig client={wagmiClient}>
+          <RainbowKitProvider chains={chains} initialChain={config.chain}>
+            <NextUIProvider>
+              <Component {...pageProps} />
+              <Toaster
+                containerStyle={{
+                  zIndex: 99999999999,
+                }}
+              />
+            </NextUIProvider>
+          </RainbowKitProvider>
+        </WagmiConfig>
+      </BindDidContext.Provider>
+    </DIDContext.Provider>
   );
 }
