@@ -180,7 +180,11 @@
   );
   background-clip: content-box;
 }
-
+.list {
+  height: auto;
+  width: 1200px;
+  margin-top: 50px;
+}
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
   .card:hover {
@@ -205,6 +209,11 @@
 
 /* Mobile */
 @media (max-width: 700px) {
+  .list {
+    height: auto;
+    width: 100%;
+    margin-top: 0px;
+  }
   .main {
     padding: 2rem;
   }

@@ -16,16 +16,19 @@ import {
 } from '../contexts/did.context';
 const { chains, provider } = configureChains(
   [config.chain],
-  [
-    infuraProvider({
-      apiKey: config.infuraApiKey,
-    }),
-    jsonRpcProvider({
-      rpc: () => {
-        return { http: 'http://localhost:8545' };
-      },
-    }),
-  ],
+  process.env.NODE_ENV == 'production'
+    ? [
+        infuraProvider({
+          apiKey: config.infuraApiKey,
+        }),
+      ]
+    : [
+        jsonRpcProvider({
+          rpc: () => {
+            return { http: 'http://localhost:8545' };
+          },
+        }),
+      ],
 );
 
 const { connectors } = getDefaultWallets({

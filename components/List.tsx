@@ -7,7 +7,7 @@ import { useAccount } from 'wagmi';
 import { config } from '../config';
 import { useIdeaSBTRead } from '../lib/idea3';
 import { IdeaSBT } from '../types/contracts/idea3/IdeaSBT';
-
+import styles from '../styles/Home.module.css';
 function formatAddress(address: string) {
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
 }
@@ -31,8 +31,12 @@ export function List() {
     setIdeaCount(ideaCount.toNumber());
 
     const _ids = [];
+    // 倒序请求
     for (let i = 0; i < 10; i++) {
-      _ids.push(i + (_page - 1) * 10);
+      const _id = ideaCount.toNumber() - _page * 10 + i;
+      if (_id >= 0) {
+        _ids.unshift(_id);
+      }
     }
     let _ideas: (IdeaSBT.IdeaStructStructOutput & {
       isTokenOwner?: boolean;
@@ -44,13 +48,13 @@ export function List() {
 
     setIdeas(_ideas);
 
-    for (let i = 0; i < _ideas.length; i++) {
-      const _idea = _ideas[i];
-      const isTokenOwner = await idea.ownerOf(_idea.id);
-      if (isTokenOwner === address) {
-        _ideas[i].isTokenOwner = true;
-      }
-    }
+    // for (let i = 0; i < _ideas.length; i++) {
+    //   const _idea = _ideas[i];
+    //   const isTokenOwner = await idea.ownerOf(_idea.id);
+    //   if (isTokenOwner === address) {
+    //     _ideas[i].isTokenOwner = true;
+    //   }
+    // }
 
     setIdeas(_ideas);
   }
@@ -115,13 +119,7 @@ export function List() {
   }, [nowPage]);
 
   return (
-    <div
-      style={{
-        height: 'auto',
-        width: '1200px',
-        marginTop: '50px',
-      }}
-    >
+    <div style={{}} className={styles.list}>
       <Table>
         <Table.Header>
           <Table.Column>ID</Table.Column>

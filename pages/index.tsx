@@ -13,11 +13,17 @@ import {
 } from '@nextui-org/react';
 import { useContext, useEffect, useState } from 'react';
 import { useAccount, useEnsName, useSigner } from 'wagmi';
-import { useIdeaDID, useIdeaSBT } from '../lib/idea3';
+import {
+  useIdeaDID,
+  useIdeaDIDRead,
+  useIdeaSBT,
+  useIdeaSBTRead,
+} from '../lib/idea3';
 import toast from 'react-hot-toast';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { List } from '../components/List';
 import MintDID from '../components/MintDID';
+import BindDID from '../components/BindDID';
 import { BindDidContext, DIDContext, useDID } from '../contexts/did.context';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -46,7 +52,8 @@ export default function Home() {
   const [markdown, setMarkdown] = useState('');
   const [ideaCount, setIdeaCount] = useState(0);
   const idea = useIdeaSBT();
-  const did = useIdeaDID();
+  const ideaRead = useIdeaSBTRead();
+  const didRead = useIdeaDIDRead();
 
   const [submiting, setSubmiting] = useState(false);
 
@@ -73,7 +80,7 @@ export default function Home() {
 
   async function getIdeaCount() {
     try {
-      const ideaCount = await idea.topicCount();
+      const ideaCount = await ideaRead.topicCount();
       setIdeaCount(ideaCount.toNumber());
     } catch (e) {
       console.log(e);
@@ -81,8 +88,9 @@ export default function Home() {
   }
 
   async function createNewIdea() {
-    const didBalance = await did.balanceOf(address as string);
-    const lockedDid = await did.resolveAddressToDid(address as string);
+    const didBalance = await didRead.balanceOf(address as string);
+    const lockedDid = await didRead.resolveAddressToDid(address as string);
+    console.log('lockedDid', lockedDid);
     if (didBalance.toNumber() === 0) {
       showMintModalHandler();
       return;
@@ -93,15 +101,19 @@ export default function Home() {
     setShowCreateModal(true);
   }
 
-  useEffect(() => {
-    if (ensName) {
-      setName(ensName);
-    }
-  }, [ensName]);
+  async function getDid() {
+    const lockedDid = await didRead.resolveAddressToDid(address as string);
+    setName(lockedDid);
+  }
 
   useEffect(() => {
     getIdeaCount();
   }, []);
+  useEffect(() => {
+    if (address) {
+      getDid();
+    }
+  }, [address]);
 
   return (
     <>
@@ -161,6 +173,7 @@ export default function Home() {
           </a>
         </div>
         <MintDID />
+        <BindDID />
         <Modal
           closeButton
           aria-labelledby="modal-title"
@@ -184,12 +197,12 @@ export default function Home() {
                 onChange={(e) => e.target.value && setTitle(e.target.value)}
               />
               <Input
-                label="your name"
-                placeholder="Please input your name, max 30 characters"
+                label="did handle"
                 maxLength={30}
                 width="100%"
                 value={name}
-                onChange={(e) => e.target.value && setName(e.target.value)}
+                disabled
+                labelLeft="@"
               />
               <Textarea
                 label="description"

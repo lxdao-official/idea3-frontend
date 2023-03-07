@@ -1,13 +1,14 @@
 import { Button, Checkbox, Input, Modal, Radio, Text } from '@nextui-org/react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useAccount } from 'wagmi';
-import { useBindDid, useDID } from '../contexts/did.context';
-import { useIdeaDID, useIdeaSBT } from '../lib/idea3';
+import { BindDidContext, useBindDid, useDID } from '../contexts/did.context';
+import { useIdeaDID, useIdeaDIDRead, useIdeaSBT } from '../lib/idea3';
 
 export default function BindDID() {
-  const { showBindDidModal, closeBindDidModalHandler } = useBindDid();
+  const { showBindDidModal, closeBindDidModalHandler } =
+    useContext(BindDidContext);
 
   const [submiting, setSubmiting] = useState(false);
   const [handle, setHandle] = useState('');
@@ -15,6 +16,7 @@ export default function BindDID() {
   const { address } = useAccount();
   const { isConnected } = useAccount();
   const did = useIdeaDID();
+  const didRead = useIdeaDIDRead();
   const submitBind = async () => {
     setSubmiting(true);
     const loading = toast.loading('Binding...');
@@ -38,16 +40,17 @@ export default function BindDID() {
 
   const [didList, setDidList] = useState<string[]>([]);
   const fetchDidList = async () => {
-    const _didList = await did.getAddressesDIDList(address as string);
+    console.log('fetchDidList');
+    const _didList = await didRead.getAddressesDIDList(address as string);
     console.log(_didList);
     setDidList(_didList);
   };
 
   useEffect(() => {
-    if (address) {
+    if (showBindDidModal) {
       fetchDidList();
     }
-  }, [address]);
+  }, [showBindDidModal]);
   return (
     <Modal
       closeButton
@@ -71,7 +74,7 @@ export default function BindDID() {
           orientation="horizontal"
           color="secondary"
           onChange={(value) => {
-            setHandle(value[0]);
+            setHandle(value as string);
           }}
         >
           {didList.map((did) => {

@@ -8,8 +8,8 @@ import ABI_IDEADID from '../abi/contracts/idea3/IdeaDID.sol/IdeaDID.json';
 // import ABI_IDEANFT from '../abi/IdeaNFT.json';
 
 import { Client, configureChains, useProvider, useSigner } from 'wagmi';
-import { infuraProvider } from 'wagmi/dist/providers/infura';
-import { jsonRpcProvider } from 'wagmi/dist/providers/jsonRpc';
+import { infuraProvider } from 'wagmi/providers/infura';
+import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
 // import { IdeaNFT } from '../types';
 
 export const useIdeaSBT = () => {
@@ -31,16 +31,19 @@ export const useIdeaDID = () => {
 // };
 const { chains, provider } = configureChains(
   [config.chain],
-  [
-    infuraProvider({
-      apiKey: config.infuraApiKey,
-    }),
-    jsonRpcProvider({
-      rpc: () => {
-        return { http: 'http://localhost:8545' };
-      },
-    }),
-  ],
+  process.env.NODE_ENV == 'production'
+    ? [
+        infuraProvider({
+          apiKey: config.infuraApiKey,
+        }),
+      ]
+    : [
+        jsonRpcProvider({
+          rpc: () => {
+            return { http: 'http://localhost:8545' };
+          },
+        }),
+      ],
 );
 const contract = new ethers.Contract(
   config.sbt,
@@ -49,8 +52,18 @@ const contract = new ethers.Contract(
     chainId: config.chain.id,
   }),
 );
+const DID = new ethers.Contract(
+  config.did,
+  ABI_IDEADID,
+  provider({
+    chainId: config.chain.id,
+  }),
+);
 export const useIdeaSBTRead = () => {
   return contract as IdeaSBT;
+};
+export const useIdeaDIDRead = () => {
+  return DID as IdeaDID;
 };
 // export const useIdeaNFTRead = () => {
 //   const provider = useProvider();
