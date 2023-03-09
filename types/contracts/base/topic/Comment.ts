@@ -26,7 +26,7 @@ import type {
   TypedListener,
   OnEvent,
   PromiseOrValue,
-} from "../../common";
+} from "../../../common";
 
 export declare namespace Comment {
   export type CommentStructStruct = {
@@ -55,37 +55,7 @@ export declare namespace Comment {
   };
 }
 
-export declare namespace SubIdeaSBT {
-  export type SubIdeaStructStruct = {
-    id: PromiseOrValue<BigNumberish>;
-    topicId: PromiseOrValue<BigNumberish>;
-    markdown: PromiseOrValue<string>;
-    submitter: PromiseOrValue<string>;
-    submitterHandle: PromiseOrValue<string>;
-    createAt: PromiseOrValue<BigNumberish>;
-    updateAt: PromiseOrValue<BigNumberish>;
-  };
-
-  export type SubIdeaStructStructOutput = [
-    BigNumber,
-    BigNumber,
-    string,
-    string,
-    string,
-    BigNumber,
-    BigNumber
-  ] & {
-    id: BigNumber;
-    topicId: BigNumber;
-    markdown: string;
-    submitter: string;
-    submitterHandle: string;
-    createAt: BigNumber;
-    updateAt: BigNumber;
-  };
-}
-
-export interface SubIdeaSBTInterface extends utils.Interface {
+export interface CommentInterface extends utils.Interface {
   functions: {
     "CANNOT_TRANSFER_TO_ZERO_ADDRESS()": FunctionFragment;
     "NOT_CURRENT_OWNER()": FunctionFragment;
@@ -93,26 +63,18 @@ export interface SubIdeaSBTInterface extends utils.Interface {
     "balanceOfBatch(address[],uint256[])": FunctionFragment;
     "commentCount()": FunctionFragment;
     "editComment(uint256,uint256,string)": FunctionFragment;
-    "editSubIdea(uint256,uint256,string)": FunctionFragment;
     "getComment(uint256,uint256)": FunctionFragment;
     "getCommentCount(uint256)": FunctionFragment;
-    "getSubIdea(uint256,uint256)": FunctionFragment;
-    "getSubIdeaByIds(uint256,uint256[])": FunctionFragment;
-    "getSubIdeaCount(uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "owner()": FunctionFragment;
     "safeBatchTransferFrom(address,address,uint256[],uint256[],bytes)": FunctionFragment;
     "safeTransferFrom(address,address,uint256,uint256,bytes)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
     "setCanEdit(bool)": FunctionFragment;
-    "setFee(uint256)": FunctionFragment;
-    "setFeeOn(bool)": FunctionFragment;
     "submitComment(uint256,string)": FunctionFragment;
-    "submitSubIdea(uint256,string)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "uri(uint256)": FunctionFragment;
-    "withdraw(address)": FunctionFragment;
   };
 
   getFunction(
@@ -123,26 +85,18 @@ export interface SubIdeaSBTInterface extends utils.Interface {
       | "balanceOfBatch"
       | "commentCount"
       | "editComment"
-      | "editSubIdea"
       | "getComment"
       | "getCommentCount"
-      | "getSubIdea"
-      | "getSubIdeaByIds"
-      | "getSubIdeaCount"
       | "isApprovedForAll"
       | "owner"
       | "safeBatchTransferFrom"
       | "safeTransferFrom"
       | "setApprovalForAll"
       | "setCanEdit"
-      | "setFee"
-      | "setFeeOn"
       | "submitComment"
-      | "submitSubIdea"
       | "supportsInterface"
       | "transferOwnership"
       | "uri"
-      | "withdraw"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -174,31 +128,11 @@ export interface SubIdeaSBTInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: "editSubIdea",
-    values: [
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<string>
-    ]
-  ): string;
-  encodeFunctionData(
     functionFragment: "getComment",
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "getCommentCount",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getSubIdea",
-    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getSubIdeaByIds",
-    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>[]]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getSubIdeaCount",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
@@ -235,19 +169,7 @@ export interface SubIdeaSBTInterface extends utils.Interface {
     values: [PromiseOrValue<boolean>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setFee",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setFeeOn",
-    values: [PromiseOrValue<boolean>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "submitComment",
-    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "submitSubIdea",
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -261,10 +183,6 @@ export interface SubIdeaSBTInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "uri",
     values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "withdraw",
-    values: [PromiseOrValue<string>]
   ): string;
 
   decodeFunctionResult(
@@ -288,22 +206,9 @@ export interface SubIdeaSBTInterface extends utils.Interface {
     functionFragment: "editComment",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "editSubIdea",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "getComment", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getCommentCount",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "getSubIdea", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "getSubIdeaByIds",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getSubIdeaCount",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -324,14 +229,8 @@ export interface SubIdeaSBTInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setCanEdit", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "setFee", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "setFeeOn", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "submitComment",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "submitSubIdea",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -343,7 +242,6 @@ export interface SubIdeaSBTInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "uri", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
 
   events: {
     "ApprovalForAll(address,address,bool)": EventFragment;
@@ -436,12 +334,12 @@ export type URIEvent = TypedEvent<[string, BigNumber], URIEventObject>;
 
 export type URIEventFilter = TypedEventFilter<URIEvent>;
 
-export interface SubIdeaSBT extends BaseContract {
+export interface Comment extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: SubIdeaSBTInterface;
+  interface: CommentInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -490,13 +388,6 @@ export interface SubIdeaSBT extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    editSubIdea(
-      ideaId: PromiseOrValue<BigNumberish>,
-      subideaId: PromiseOrValue<BigNumberish>,
-      markdown: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
     getComment(
       topicId: PromiseOrValue<BigNumberish>,
       commentId: PromiseOrValue<BigNumberish>,
@@ -505,23 +396,6 @@ export interface SubIdeaSBT extends BaseContract {
 
     getCommentCount(
       topicId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    getSubIdea(
-      ideaId: PromiseOrValue<BigNumberish>,
-      subideaId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[SubIdeaSBT.SubIdeaStructStructOutput]>;
-
-    getSubIdeaByIds(
-      ideaId: PromiseOrValue<BigNumberish>,
-      subideaIds: PromiseOrValue<BigNumberish>[],
-      overrides?: CallOverrides
-    ): Promise<[SubIdeaSBT.SubIdeaStructStructOutput[]]>;
-
-    getSubIdeaCount(
-      ideaId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
@@ -562,24 +436,8 @@ export interface SubIdeaSBT extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setFee(
-      fee: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setFeeOn(
-      feeOn: PromiseOrValue<boolean>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
     submitComment(
       topicId: PromiseOrValue<BigNumberish>,
-      markdown: PromiseOrValue<string>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    submitSubIdea(
-      ideaId: PromiseOrValue<BigNumberish>,
       markdown: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -595,14 +453,9 @@ export interface SubIdeaSBT extends BaseContract {
     ): Promise<ContractTransaction>;
 
     uri(
-      id: PromiseOrValue<BigNumberish>,
+      arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[string]>;
-
-    withdraw(
-      recipient: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
   };
 
   CANNOT_TRANSFER_TO_ZERO_ADDRESS(overrides?: CallOverrides): Promise<string>;
@@ -630,13 +483,6 @@ export interface SubIdeaSBT extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  editSubIdea(
-    ideaId: PromiseOrValue<BigNumberish>,
-    subideaId: PromiseOrValue<BigNumberish>,
-    markdown: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
   getComment(
     topicId: PromiseOrValue<BigNumberish>,
     commentId: PromiseOrValue<BigNumberish>,
@@ -645,23 +491,6 @@ export interface SubIdeaSBT extends BaseContract {
 
   getCommentCount(
     topicId: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
-  getSubIdea(
-    ideaId: PromiseOrValue<BigNumberish>,
-    subideaId: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<SubIdeaSBT.SubIdeaStructStructOutput>;
-
-  getSubIdeaByIds(
-    ideaId: PromiseOrValue<BigNumberish>,
-    subideaIds: PromiseOrValue<BigNumberish>[],
-    overrides?: CallOverrides
-  ): Promise<SubIdeaSBT.SubIdeaStructStructOutput[]>;
-
-  getSubIdeaCount(
-    ideaId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
@@ -702,24 +531,8 @@ export interface SubIdeaSBT extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setFee(
-    fee: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setFeeOn(
-    feeOn: PromiseOrValue<boolean>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
   submitComment(
     topicId: PromiseOrValue<BigNumberish>,
-    markdown: PromiseOrValue<string>,
-    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  submitSubIdea(
-    ideaId: PromiseOrValue<BigNumberish>,
     markdown: PromiseOrValue<string>,
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -735,14 +548,9 @@ export interface SubIdeaSBT extends BaseContract {
   ): Promise<ContractTransaction>;
 
   uri(
-    id: PromiseOrValue<BigNumberish>,
+    arg0: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<string>;
-
-  withdraw(
-    recipient: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
 
   callStatic: {
     CANNOT_TRANSFER_TO_ZERO_ADDRESS(overrides?: CallOverrides): Promise<string>;
@@ -770,13 +578,6 @@ export interface SubIdeaSBT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    editSubIdea(
-      ideaId: PromiseOrValue<BigNumberish>,
-      subideaId: PromiseOrValue<BigNumberish>,
-      markdown: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     getComment(
       topicId: PromiseOrValue<BigNumberish>,
       commentId: PromiseOrValue<BigNumberish>,
@@ -785,23 +586,6 @@ export interface SubIdeaSBT extends BaseContract {
 
     getCommentCount(
       topicId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getSubIdea(
-      ideaId: PromiseOrValue<BigNumberish>,
-      subideaId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<SubIdeaSBT.SubIdeaStructStructOutput>;
-
-    getSubIdeaByIds(
-      ideaId: PromiseOrValue<BigNumberish>,
-      subideaIds: PromiseOrValue<BigNumberish>[],
-      overrides?: CallOverrides
-    ): Promise<SubIdeaSBT.SubIdeaStructStructOutput[]>;
-
-    getSubIdeaCount(
-      ideaId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -842,24 +626,8 @@ export interface SubIdeaSBT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setFee(
-      fee: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setFeeOn(
-      feeOn: PromiseOrValue<boolean>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     submitComment(
       topicId: PromiseOrValue<BigNumberish>,
-      markdown: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    submitSubIdea(
-      ideaId: PromiseOrValue<BigNumberish>,
       markdown: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -875,14 +643,9 @@ export interface SubIdeaSBT extends BaseContract {
     ): Promise<void>;
 
     uri(
-      id: PromiseOrValue<BigNumberish>,
+      arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<string>;
-
-    withdraw(
-      recipient: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
   };
 
   filters: {
@@ -984,13 +747,6 @@ export interface SubIdeaSBT extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    editSubIdea(
-      ideaId: PromiseOrValue<BigNumberish>,
-      subideaId: PromiseOrValue<BigNumberish>,
-      markdown: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
     getComment(
       topicId: PromiseOrValue<BigNumberish>,
       commentId: PromiseOrValue<BigNumberish>,
@@ -999,23 +755,6 @@ export interface SubIdeaSBT extends BaseContract {
 
     getCommentCount(
       topicId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getSubIdea(
-      ideaId: PromiseOrValue<BigNumberish>,
-      subideaId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getSubIdeaByIds(
-      ideaId: PromiseOrValue<BigNumberish>,
-      subideaIds: PromiseOrValue<BigNumberish>[],
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getSubIdeaCount(
-      ideaId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1056,24 +795,8 @@ export interface SubIdeaSBT extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    setFee(
-      fee: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setFeeOn(
-      feeOn: PromiseOrValue<boolean>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
     submitComment(
       topicId: PromiseOrValue<BigNumberish>,
-      markdown: PromiseOrValue<string>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    submitSubIdea(
-      ideaId: PromiseOrValue<BigNumberish>,
       markdown: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -1089,13 +812,8 @@ export interface SubIdeaSBT extends BaseContract {
     ): Promise<BigNumber>;
 
     uri(
-      id: PromiseOrValue<BigNumberish>,
+      arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    withdraw(
-      recipient: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
   };
 
@@ -1127,13 +845,6 @@ export interface SubIdeaSBT extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    editSubIdea(
-      ideaId: PromiseOrValue<BigNumberish>,
-      subideaId: PromiseOrValue<BigNumberish>,
-      markdown: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
     getComment(
       topicId: PromiseOrValue<BigNumberish>,
       commentId: PromiseOrValue<BigNumberish>,
@@ -1142,23 +853,6 @@ export interface SubIdeaSBT extends BaseContract {
 
     getCommentCount(
       topicId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getSubIdea(
-      ideaId: PromiseOrValue<BigNumberish>,
-      subideaId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getSubIdeaByIds(
-      ideaId: PromiseOrValue<BigNumberish>,
-      subideaIds: PromiseOrValue<BigNumberish>[],
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getSubIdeaCount(
-      ideaId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1199,24 +893,8 @@ export interface SubIdeaSBT extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    setFee(
-      fee: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setFeeOn(
-      feeOn: PromiseOrValue<boolean>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
     submitComment(
       topicId: PromiseOrValue<BigNumberish>,
-      markdown: PromiseOrValue<string>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    submitSubIdea(
-      ideaId: PromiseOrValue<BigNumberish>,
       markdown: PromiseOrValue<string>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
@@ -1232,13 +910,8 @@ export interface SubIdeaSBT extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     uri(
-      id: PromiseOrValue<BigNumberish>,
+      arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    withdraw(
-      recipient: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
   };
 }

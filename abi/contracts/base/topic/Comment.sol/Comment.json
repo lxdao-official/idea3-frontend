@@ -1,21 +1,5 @@
 [
   {
-    "inputs": [
-      {
-        "internalType": "contract IIdeaSBT",
-        "name": "ideaSBT_",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_handleProxy_",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
     "anonymous": false,
     "inputs": [
       {
@@ -184,10 +168,6 @@
     "type": "event"
   },
   {
-    "stateMutability": "payable",
-    "type": "fallback"
-  },
-  {
     "inputs": [],
     "name": "CANNOT_TRANSFER_TO_ZERO_ADDRESS",
     "outputs": [
@@ -301,29 +281,6 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "ideaId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "subideaId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "markdown",
-        "type": "string"
-      }
-    ],
-    "name": "editSubIdea",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
         "name": "topicId",
         "type": "uint256"
       },
@@ -385,147 +342,6 @@
       }
     ],
     "name": "getCommentCount",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "ideaId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "subideaId",
-        "type": "uint256"
-      }
-    ],
-    "name": "getSubIdea",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "topicId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "markdown",
-            "type": "string"
-          },
-          {
-            "internalType": "address",
-            "name": "submitter",
-            "type": "address"
-          },
-          {
-            "internalType": "string",
-            "name": "submitterHandle",
-            "type": "string"
-          },
-          {
-            "internalType": "uint256",
-            "name": "createAt",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "updateAt",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct SubIdeaSBT.SubIdeaStruct",
-        "name": "",
-        "type": "tuple"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "ideaId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "subideaIds",
-        "type": "uint256[]"
-      }
-    ],
-    "name": "getSubIdeaByIds",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "topicId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "markdown",
-            "type": "string"
-          },
-          {
-            "internalType": "address",
-            "name": "submitter",
-            "type": "address"
-          },
-          {
-            "internalType": "string",
-            "name": "submitterHandle",
-            "type": "string"
-          },
-          {
-            "internalType": "uint256",
-            "name": "createAt",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "updateAt",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct SubIdeaSBT.SubIdeaStruct[]",
-        "name": "",
-        "type": "tuple[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "ideaId",
-        "type": "uint256"
-      }
-    ],
-    "name": "getSubIdeaCount",
     "outputs": [
       {
         "internalType": "uint256",
@@ -674,32 +490,6 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "fee",
-        "type": "uint256"
-      }
-    ],
-    "name": "setFee",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bool",
-        "name": "feeOn",
-        "type": "bool"
-      }
-    ],
-    "name": "setFeeOn",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
         "name": "topicId",
         "type": "uint256"
       },
@@ -710,24 +500,6 @@
       }
     ],
     "name": "submitComment",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "ideaId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "string",
-        "name": "markdown",
-        "type": "string"
-      }
-    ],
-    "name": "submitSubIdea",
     "outputs": [],
     "stateMutability": "payable",
     "type": "function"
@@ -768,7 +540,7 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "id",
+        "name": "",
         "type": "uint256"
       }
     ],
@@ -782,22 +554,5 @@
     ],
     "stateMutability": "view",
     "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address payable",
-        "name": "recipient",
-        "type": "address"
-      }
-    ],
-    "name": "withdraw",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "stateMutability": "payable",
-    "type": "receive"
   }
 ]

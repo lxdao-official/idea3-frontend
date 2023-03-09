@@ -54,6 +54,8 @@ export type { SBT1155 } from "./contracts/base/sbt/SBT1155";
 export { SBT1155__factory } from "./factories/contracts/base/sbt/SBT1155__factory";
 export type { SBT721 } from "./contracts/base/sbt/SBT721";
 export { SBT721__factory } from "./factories/contracts/base/sbt/SBT721__factory";
+export type { Comment } from "./contracts/base/topic/Comment";
+export { Comment__factory } from "./factories/contracts/base/topic/Comment__factory";
 export type { Topic } from "./contracts/base/topic/Topic";
 export { Topic__factory } from "./factories/contracts/base/topic/Topic__factory";
 export type { ERC721Tradable } from "./contracts/base/tradable/ERC721Tradable";
