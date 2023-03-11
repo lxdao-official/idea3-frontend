@@ -185,6 +185,17 @@
   width: 1200px;
   margin-top: 50px;
 }
+.roadmap {
+  margin-top: 50px;
+  width: 1200px;
+}
+.roadmap_title {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  margin-top: 0px;
+  text-align: center;
+}
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
   .card:hover {
@@ -213,6 +224,10 @@
     height: auto;
     width: 100%;
     margin-top: 0px;
+  }
+  .roadmap {
+    margin-top: 0px;
+    width: 100%;
   }
   .main {
     padding: 2rem;
