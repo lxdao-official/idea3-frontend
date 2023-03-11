@@ -15,7 +15,7 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useAccount } from 'wagmi';
 import { config } from '../config';
-import { useIdeaSBTRead } from '../lib/idea3';
+import { useIdeaDIDRead, useIdeaSBTRead } from '../lib/idea3';
 import { IdeaSBT } from '../types/contracts/idea3/IdeaSBT';
 import styles from '../styles/Home.module.css';
 function formatAddress(address: string) {
