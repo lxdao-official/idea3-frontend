@@ -15,7 +15,7 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useAccount } from 'wagmi';
 import { config } from '../config';
-import { useIdeaDIDRead, useIdeaSBTRead } from '../lib/idea3';
+import { useIdeaDIDRead, useIdeaSBT, useIdeaSBTRead } from '../lib/idea3';
 import { IdeaSBT } from '../types/contracts/idea3/IdeaSBT';
 import styles from '../styles/Home.module.css';
 function formatAddress(address: string) {
@@ -37,14 +37,15 @@ export function List() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [ideaCount, setIdeaCount] = useState(0);
   const [nowPage, setNowPage] = useState(1);
-  const idea = useIdeaSBTRead();
+  const idea = useIdeaSBT();
+  const ideaRead = useIdeaSBTRead();
   const didRead = useIdeaDIDRead();
   // const ideaNFT = useIdeaNFTRead();
 
   const [isOwner, setIsOwner] = useState(false);
 
   async function getIdeas(_page: number = 1) {
-    const ideaCount = await idea.topicCount();
+    const ideaCount = await ideaRead.topicCount();
     setIdeaCount(ideaCount.toNumber());
 
     const _ids = [];
@@ -58,7 +59,7 @@ export function List() {
     let _ideas: (IdeaSBT.IdeaStructStructOutput & {
       isTokenOwner?: boolean;
     })[] = [];
-    _ideas = await idea.getIdeas(_ids);
+    _ideas = await ideaRead.getIdeas(_ids);
     console.log('ideas', _ideas);
 
     _ideas = _ideas.filter((idea) => idea.title !== '');
@@ -77,7 +78,7 @@ export function List() {
   }
 
   async function getOwner() {
-    const owner = await idea.owner();
+    const owner = await ideaRead.owner();
     if (owner === address) {
       setIsOwner(true);
     }
