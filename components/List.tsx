@@ -341,6 +341,9 @@ export function List() {
                         size={'xs'}
                         onClick={() => {
                           setId(idea.id.toString());
+                          setTitle(idea.title);
+                          setDescription(idea.desc);
+                          setMarkdown(idea.markdown);
                           setShowCreateModal(true);
                         }}
                       >
