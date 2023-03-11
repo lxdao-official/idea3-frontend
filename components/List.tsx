@@ -1,4 +1,14 @@
-import { Badge, Button, Pagination, Table } from '@nextui-org/react';
+import {
+  Badge,
+  Button,
+  Container,
+  Input,
+  Modal,
+  Pagination,
+  Table,
+  Text,
+  Textarea,
+} from '@nextui-org/react';
 import { utils } from 'ethers';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
@@ -19,6 +29,12 @@ export function List() {
     })[]
   >([]);
 
+  const [id, setId] = useState('');
+  const [title, setTitle] = useState('');
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [markdown, setMarkdown] = useState('');
+  const [showCreateModal, setShowCreateModal] = useState(false);
   const [ideaCount, setIdeaCount] = useState(0);
   const [nowPage, setNowPage] = useState(1);
   const idea = useIdeaSBTRead();
@@ -108,7 +124,33 @@ export function List() {
     //   toast.error(e.message || e.error.message);
     // }
   }
+  const [submiting, setSubmiting] = useState(false);
 
+  async function submit() {
+    setSubmiting(true);
+    const loading = toast.loading('Submitting...');
+    try {
+      if (!title || !description || !name) {
+        throw new Error('Please input all fields');
+      }
+      const res = await idea.editIdeaBySubmitter(
+        id,
+        title.replace(/\n/g, '  \n'),
+        description.replace(/\n/g, '  \n'),
+        markdown.replace(/\n/g, '  \n'),
+      );
+      await res.wait();
+      toast.success('Submit Success');
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 300);
+    } catch (e: any) {
+      toast.error(e.message || e.error.message);
+    }
+    toast.dismiss(loading);
+    setSubmiting(false);
+  }
   useEffect(() => {
     getIdeas();
     getOwner();
@@ -294,14 +336,17 @@ export function List() {
                     >
                       List for Sale
                     </Button>
-                    {/* <Button
-                      size={'xs'}
-                      onClick={() => {
-                        buy(idea.id.toString());
-                      }}
-                    >
-                      Buy
-                    </Button> */}
+                    {idea.submitter == address ? (
+                      <Button
+                        size={'xs'}
+                        onClick={() => {
+                          setId(idea.id.toString());
+                          setShowCreateModal(true);
+                        }}
+                      >
+                        Edit
+                      </Button>
+                    ) : null}
                   </div>
                 </Table.Cell>
               </Table.Row>
@@ -328,6 +373,85 @@ export function List() {
           Total: {ideaCount}
         </span>
       </div>
+      <Modal
+        closeButton
+        aria-labelledby="modal-title"
+        open={showCreateModal}
+        width="600px"
+        onClose={() => {
+          setShowCreateModal(false);
+        }}
+      >
+        <Modal.Header>
+          <Text id="modal-title" size={18}>
+            Edit Idea
+          </Text>
+        </Modal.Header>
+        <Modal.Body>
+          <Container>
+            <Input
+              label="title"
+              placeholder="Please input idea title, max 30 characters"
+              maxLength={70}
+              width="100%"
+              value={title}
+              onChange={(e) =>
+                setTimeout(() => {
+                  setTitle(e.target.value);
+                }, 100)
+              }
+            />
+            <Input
+              label="did handle"
+              maxLength={30}
+              width="100%"
+              value={name}
+              disabled
+              labelLeft="@"
+            />
+            <Textarea
+              label="description"
+              placeholder="Please input idea description, max 100 characters"
+              maxLength={100}
+              width="100%"
+              value={description}
+              onChange={(e) =>
+                setTimeout(() => {
+                  e.target.value && setDescription(e.target.value);
+                }, 100)
+              }
+            />
+
+            <Textarea
+              label="other info"
+              placeholder="Please input more information, markdown format"
+              maxLength={1000}
+              width="100%"
+              value={markdown}
+              onChange={(e) =>
+                setTimeout(() => {
+                  e.target.value && setMarkdown(e.target.value);
+                }, 100)
+              }
+            />
+          </Container>
+        </Modal.Body>
+        <Modal.Footer
+          justify="center"
+          style={{
+            padding: '20px',
+          }}
+        >
+          {isConnected ? (
+            <Button color="primary" auto onClick={submit} disabled={submiting}>
+              Submit to Chain
+            </Button>
+          ) : (
+            // <ConnectButton />
+            <Text>Connect Wallet First</Text>
+          )}
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }
