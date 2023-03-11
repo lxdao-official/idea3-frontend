@@ -60,7 +60,11 @@ export default function Home() {
       if (!title || !description || !name) {
         throw new Error('Please input all fields');
       }
-      const res = await idea.submitIdea(title, description, markdown);
+      const res = await idea.submitIdea(
+        title.replace(/\n/g, '  \n'),
+        description.replace(/\n/g, '  \n'),
+        markdown.replace(/\n/g, '  \n'),
+      );
       await res.wait();
       toast.success('Submit Success');
 
