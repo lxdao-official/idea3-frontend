@@ -38,6 +38,7 @@ export function List() {
   const [ideaCount, setIdeaCount] = useState(0);
   const [nowPage, setNowPage] = useState(1);
   const idea = useIdeaSBTRead();
+  const didRead = useIdeaDIDRead();
   // const ideaNFT = useIdeaNFTRead();
 
   const [isOwner, setIsOwner] = useState(false);
@@ -155,6 +156,15 @@ export function List() {
     getIdeas();
     getOwner();
   }, [isConnected]);
+  useEffect(() => {
+    if (address) {
+      getDid();
+    }
+  }, [address]);
+  async function getDid() {
+    const lockedDid = await didRead.resolveAddressToDid(address as string);
+    setName(lockedDid);
+  }
 
   useEffect(() => {
     getIdeas(nowPage);
