@@ -74,7 +74,9 @@ export default function BindDID() {
           orientation="horizontal"
           color="secondary"
           onChange={(value) => {
-            setHandle(value as string);
+            setTimeout(() => {
+              setHandle(value as string);
+            }, 300);
           }}
         >
           {didList.map((did) => {

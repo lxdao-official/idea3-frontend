@@ -31,7 +31,7 @@ const inter = Inter({ subsets: ['latin'] });
 export default function Home() {
   const { showMintModalHandler } = useContext(DIDContext);
   const { showBindDidModalHandler } = useContext(BindDidContext);
-  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(true);
   const [showListModal, setShowListModal] = useState(false);
   function closeHandler() {
     console.log('close');
@@ -194,7 +194,11 @@ export default function Home() {
                 maxLength={70}
                 width="100%"
                 value={title}
-                onChange={(e) => e.target.value && setTitle(e.target.value)}
+                onChange={(e) =>
+                  setTimeout(() => {
+                    setTitle(e.target.value);
+                  }, 100)
+                }
               />
               <Input
                 label="did handle"
@@ -211,7 +215,9 @@ export default function Home() {
                 width="100%"
                 value={description}
                 onChange={(e) =>
-                  e.target.value && setDescription(e.target.value)
+                  setTimeout(() => {
+                    e.target.value && setDescription(e.target.value);
+                  }, 100)
                 }
               />
 
@@ -221,7 +227,11 @@ export default function Home() {
                 maxLength={1000}
                 width="100%"
                 value={markdown}
-                onChange={(e) => e.target.value && setMarkdown(e.target.value)}
+                onChange={(e) =>
+                  setTimeout(() => {
+                    e.target.value && setMarkdown(e.target.value);
+                  }, 100)
+                }
               />
             </Container>
           </Modal.Body>

@@ -71,7 +71,11 @@ export default function MintDID() {
           maxLength={12}
           minLength={3}
           labelLeft={'@'}
-          onChange={(e) => e.target.value && setHandle(e.target.value)}
+          onChange={(e) =>
+            setTimeout(() => {
+              e.target.value && setHandle(e.target.value);
+            }, 300)
+          }
           css={{
             marginTop: '15px',
           }}
