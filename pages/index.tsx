@@ -1,6 +1,4 @@
 import Head from 'next/head';
-import Image from 'next/image';
-import { Inter } from '@next/font/google';
 import styles from '../styles/Home.module.css';
 import { LXDAOLogo } from 'lxdao-ui';
 import {
@@ -25,8 +23,6 @@ import { List } from '../components/List';
 import MintDID from '../components/MintDID';
 import BindDID from '../components/BindDID';
 import { BindDidContext, DIDContext, useDID } from '../contexts/did.context';
-
-const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
   const { showMintModalHandler } = useContext(DIDContext);
