@@ -135,11 +135,12 @@ export function List() {
       if (!title || !description || !name) {
         throw new Error('Please input all fields');
       }
+
       const res = await idea.editIdeaBySubmitter(
         id,
-        title.replace(/\n/g, '  \n'),
-        description.replace(/\n/g, '  \n'),
-        markdown.replace(/\n/g, '  \n'),
+        title.replace(/\n/g, '  \\n'),
+        description.replace(/\n/g, '  \\n'),
+        markdown.replace(/\n/g, '  \\n'),
       );
       await res.wait();
       toast.success('Submit Success');
