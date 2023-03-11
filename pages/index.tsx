@@ -27,7 +27,7 @@ import { BindDidContext, DIDContext, useDID } from '../contexts/did.context';
 export default function Home() {
   const { showMintModalHandler } = useContext(DIDContext);
   const { showBindDidModalHandler } = useContext(BindDidContext);
-  const [showCreateModal, setShowCreateModal] = useState(true);
+  const [showCreateModal, setShowCreateModal] = useState(false);
   const [showListModal, setShowListModal] = useState(false);
   function closeHandler() {
     console.log('close');
